@@ -4,10 +4,10 @@ Zespołowy projekt na Inżynierię Oprogramowania MIMUW 2020.
 C++ z biblioteką SFML.
 
 ## Autorzy
-Rafał Czarnecki
-Kajetan Husiatyński
-Michał Szczęśniak
-Anita Śledź
+* Rafał Czarnecki
+* Kajetan Husiatyński
+* Michał Szczęśniak
+* Anita Śledź
 
 ## Streszczony opis
 
@@ -61,8 +61,8 @@ Ruchome dziury, asteroidy, bonusy. Asteroidy, tunele oddziałowujące grawitacyj
 Gracz będzie miał do dostępnu wiele broni różniącymi się szybkością, wzorem, siłą i dostępnością.
 
 # Inne pomysły na przyszłość
-Edytor poziomów
-Strzelnica treningowa / wyzwaniowa
+* Edytor poziomów
+* Strzelnica treningowa / wyzwaniowa
 
 # Workflow
 
@@ -72,7 +72,7 @@ Zmiany które wykraczają poza obecny sprint mergujemy do brancha "future<numer 
 
 ## Styl kodowania
 Wcięcia wielkości dwa. W edytorze jeśli można to ustawić aby taby zostały zamieniane na spacje.
-Nazwy funkcji camelCase.
-Nazwy klas CameCase.
-Nazwy zmiennych snake_case.
+* Nazwy funkcji camelCase.
+* Nazwy klas CameCase.
+* Nazwy zmiennych snake_case.
 
