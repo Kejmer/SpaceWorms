@@ -60,6 +60,19 @@ Ruchome dziury, asteroidy, bonusy. Asteroidy, tunele oddziałowujące grawitacyj
 ## Bronie
 Gracz będzie miał do dostępnu wiele broni różniącymi się szybkością, wzorem, siłą i dostępnością.
 
-#Inne pomysły na przyszłość
+# Inne pomysły na przyszłość
 Edytor poziomów
 Strzelnica treningowa / wyzwaniowa
+
+# Workflow
+
+## Pull Requesty
+Każdą nasze zadanie tworzymy na oddzielnym branchu, aby domergować go do mastera musimy mieć review od co najmniej dwóch osób.
+Zmiany które wykraczają poza obecny sprint mergujemy do brancha "future<numer następnego sprintu>"
+
+## Styl kodowania
+Wcięcia wielkości dwa. W edytorze jeśli można to ustawić aby taby zostały zamieniane na spacje.
+Nazwy funkcji camelCase.
+Nazwy klas CameCase.
+Nazwy zmiennych snake_case.
+
