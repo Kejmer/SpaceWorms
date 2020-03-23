@@ -3,7 +3,8 @@
 #include <cmath>
 
 Circle::Circle(sf::Vector2f position, float radius, sf::Color color)
-: circle() {
+: Entity(position)
+, circle() {
     circle.setRadius(radius);
     circle.setPosition(position);
     circle.setFillColor(color);
