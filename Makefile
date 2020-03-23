@@ -1,6 +1,6 @@
 TARGET = space-worms
-SRC = world.cpp circle.cpp game.cpp
 SRCPTH = src
+SRC = $(notdir $(wildcard $(SRCPTH)/*.cpp))
 LIBPTH = bin
 OBJ = $(addprefix $(LIBPTH)/,$(SRC:.cpp=.o))
 DEP = $(addprefix $(LIBPTH)/,$(SRC:.cpp=.d))
