@@ -1,7 +1,7 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-#include "Entity.h"
+#include "entity.h"
 
 // Temporary class just for testing
 

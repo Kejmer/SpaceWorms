@@ -1,5 +1,5 @@
-#include "../include/World.h"
-#include "../include/Circle.h"  // Just for testing
+#include "../include/world.h"
+#include "../include/circle.h"  // Just for testing
 
 #include <SFML/Graphics.hpp>
 #include <memory>

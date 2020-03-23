@@ -1,4 +1,4 @@
-#include "../include/Circle.h"
+#include "../include/circle.h"
 
 #include <cmath>
 

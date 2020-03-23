@@ -1,4 +1,4 @@
-#include "../include/World.h"
+#include "../include/world.h"
 
 const sf::Time World::frame_time = sf::seconds(1./60.);
 
