@@ -8,5 +8,5 @@
 !*/
 !Makefile
 
-*.a
 *.o
+.vscode

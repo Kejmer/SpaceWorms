@@ -1,24 +1,17 @@
+#include "../include/world.h"
+#include "../include/circle.h"  // Just for testing
+
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
+    World world(window);
+    sf::Vector2f v(100, 100);
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
-
+    world.addEntity(new Circle({100, 100}, 100, sf::Color::Green));
+    world.addEntity(new Circle({300, 600}, 150, sf::Color::Blue));
+    world.run();
     return 0;
 }
