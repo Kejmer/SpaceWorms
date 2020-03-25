@@ -13,7 +13,7 @@ int main()
 
     world.addEntity(new Circle({100, 100}, 100, sf::Color::Green));
     world.addEntity(new Circle({300, 600}, 150, sf::Color::Blue));
-    world.addEntity(new SimpleBullet({400,400}, {2,1}));
+    world.addEntity(new SimpleBullet({400,400}, {40,10}));
     world.run();
     return 0;
 }

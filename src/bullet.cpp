@@ -17,7 +17,7 @@ SimpleBullet::SimpleBullet(sf::Vector2f position, sf::Vector2f velocity)
 void SimpleBullet::input(sf::Event event) {}
 
 void SimpleBullet::update(sf::Time dt) {
-  setPosition(position + velocity);
+  setPosition(position + velocity * dt.asSeconds());
   bullet.setPosition(position);
 }
 
