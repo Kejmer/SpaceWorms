@@ -24,6 +24,7 @@ void World::update(sf::Time dt) {
 }
 
 void World::draw() {
+    window.clear(sf::Color::Black);
     for (auto& entity : entities)
         entity->draw(window);
 
@@ -39,7 +40,7 @@ void World::run() {
         last_update += elapsed;
         while (last_update > frame_time) {
             last_update -= frame_time;
-            
+
             is_time_flowing = false;
             input();
             update(frame_time);
