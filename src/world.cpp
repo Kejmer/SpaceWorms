@@ -50,13 +50,16 @@ void World::run() {
 }
 
 void World::addEntity(Entity* entity) {
+    entity->setWorld(this);
     entities.push_back(std::unique_ptr<Entity>(entity));
 }
 
 void World::removeEntity(Entity* entity) {
     for (auto it = entities.begin(); it != entities.end(); it++)
-        if ((*it).get() == entity)
+        if ((*it).get() == entity) {
+            (*it).get()->setWorld(nullptr);
             entities.erase(it);
+        }
 }
 
 bool World::isTimeFlowing() {

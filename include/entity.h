@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
+// Forward declaration
+class World;
+
 class Entity {
 public:
     Entity(sf::Vector2f position);
@@ -12,8 +15,12 @@ public:
 
     void setPosition(sf::Vector2f position);
     sf::Vector2f getPosition();
+
+    void setWorld(World* world);
+    World* getWorld();
 protected:
     sf::Vector2f position;
+    World* world;
 };
 
 #endif
