@@ -4,8 +4,8 @@
 
 SimpleBullet::SimpleBullet(sf::Vector2f position, sf::Vector2f velocity)
 : Entity(position)
-, bullet(2.) {
-  this->velocity = velocity;
+, bullet(2.)
+, velocity(velocity) {
   bullet.setPosition(position);
   bullet.setFillColor(sf::Color::White);
 
