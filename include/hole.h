@@ -14,7 +14,7 @@ public:
   void setWorld(World *world);
 protected:
   typedef Entity super;
-  // virtual short direction(); //może static? TODO Michał ale nie ten sprint | coś się nie kompiluje więc do naprawienia potem
+  virtual short direction() = 0; //może static? TODO Michał ale nie ten sprint
   float mass;
   sf::CircleShape hole;
 };
