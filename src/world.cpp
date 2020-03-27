@@ -5,7 +5,7 @@ const sf::Time World::frame_time = sf::seconds(1./60.);
 World::World(sf::RenderWindow& window)
 : window(window)
 , entities()
-, waiting_entities()
+, pending_changes()
 , is_time_flowing(false) {}
 
 void World::input() {
@@ -23,9 +23,7 @@ void World::update(sf::Time dt) {
     for (auto& entity : entities)
         entity->update(dt);
 
-    for (auto& entity : waiting_entities)
-        entities.push_back(move(entity));
-    waiting_entities.clear();
+    applyPendingChanges();
 }
 
 void World::draw() {
@@ -56,17 +54,31 @@ void World::run() {
 
 void World::addEntity(Entity* entity) {
     entity->setWorld(this);
-    waiting_entities.push_back(std::unique_ptr<Entity>(entity));
+    pending_changes.push_back({Add, entity});
 }
 
 void World::removeEntity(Entity* entity) {
-    for (auto it = entities.begin(); it != entities.end(); it++)
-        if ((*it).get() == entity) {
-            (*it).get()->setWorld(nullptr);
-            entities.erase(it);
-        }
+    pending_changes.push_back({Remove, entity});
 }
 
 bool World::isTimeFlowing() {
     return is_time_flowing;
+}
+
+void World::applyPendingChanges() {
+    for (auto& change : pending_changes)
+        switch (change.action) {
+            case Add:
+                entities.push_back(std::unique_ptr<Entity>(change.entity));
+                break;
+
+            case Remove:
+                for (auto it = entities.begin(); it != entities.end(); it++)
+                    if ((*it).get() == change.entity) {
+                        (*it).get()->setWorld(nullptr);
+                        entities.erase(it);
+                    }
+        }
+
+    pending_changes.clear();
 }

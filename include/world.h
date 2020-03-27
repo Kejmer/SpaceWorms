@@ -20,9 +20,21 @@ public:
 
     bool isTimeFlowing();
 private:
+    enum Action {
+        Add,
+        Remove
+    };
+
+    struct Change {
+        Action action;
+        Entity* entity;
+    };
+
+    void applyPendingChanges();
+    
     sf::RenderWindow& window;
     std::vector<std::unique_ptr<Entity>> entities;
-    std::vector<std::unique_ptr<Entity>> waiting_entities;
+    std::vector<Change> pending_changes;
 
     static const sf::Time frame_time;
 
