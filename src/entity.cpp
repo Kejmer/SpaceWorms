@@ -12,7 +12,7 @@ sf::Vector2f Entity::getPosition() {
     return position;
 }
 
-void Entity::setWorld(World* world) {
+void Entity::setWorld(World *world) {
     this->world = world;
 }
 
