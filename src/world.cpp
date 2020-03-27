@@ -24,6 +24,7 @@ void World::update(sf::Time dt) {
 }
 
 void World::draw() {
+    //TODO Anita tło
     window.clear(sf::Color::Black);
     for (auto& entity : entities)
         entity->draw(window);

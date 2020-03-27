@@ -19,3 +19,9 @@ void Entity::setWorld(World* world) {
 World* Entity::getWorld() {
     return world;
 }
+
+//Odległość punktu od entity
+float Entity::distanceTo(sf::Vector2f where) {
+  //TODO Michał
+  return 0;
+}
