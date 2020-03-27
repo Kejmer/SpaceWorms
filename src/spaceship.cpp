@@ -29,12 +29,7 @@ void Spaceship::update(sf::Time dt) {
 }
 
 void Spaceship::draw(sf::RenderWindow& window) {
-    sf::CircleShape center{3};
-    centerOrigin(center);
-    center.setPosition(ship.getOrigin());
-    center.setFillColor(sf::Color::Green);
     window.draw(ship);
-    window.draw(center);
 }
 
 void Spaceship::shoot() {}
