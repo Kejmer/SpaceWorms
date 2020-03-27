@@ -5,6 +5,7 @@ const sf::Time World::frame_time = sf::seconds(1./60.);
 World::World(sf::RenderWindow& window)
 : window(window)
 , entities()
+, waiting_entities()
 , is_time_flowing(false) {}
 
 void World::input() {
@@ -21,6 +22,10 @@ void World::input() {
 void World::update(sf::Time dt) {
     for (auto& entity : entities)
         entity->update(dt);
+
+    for (auto& entity : waiting_entities)
+        entities.push_back(move(entity));
+    waiting_entities.clear();
 }
 
 void World::draw() {
@@ -45,14 +50,13 @@ void World::run() {
             input();
             update(frame_time);
         }
-
         draw();
     }
 }
 
 void World::addEntity(Entity* entity) {
     entity->setWorld(this);
-    entities.push_back(std::unique_ptr<Entity>(entity));
+    waiting_entities.push_back(std::unique_ptr<Entity>(entity));
 }
 
 void World::removeEntity(Entity* entity) {
