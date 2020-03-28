@@ -16,7 +16,7 @@ public:
     void setPosition(sf::Vector2f position);
     sf::Vector2f getPosition();
 
-    void setWorld(World *world);
+    virtual void setWorld(World *world);
     World* getWorld();
 protected:
     float distanceTo(sf::Vector2f where);
