@@ -1,6 +1,6 @@
-#include "../include/hole.h"
-
 #include <cmath>
+#include "../include/hole.h"
+#include "../include/world.h"
 
 GHole::GHole(sf::Vector2f position, float mass, float radius)
 : Entity(position)
@@ -15,9 +15,10 @@ GHole::GHole(sf::Vector2f position, float mass, float radius)
 }
 
 sf::Vector2f GHole::acceleration(sf::Vector2f where) {
-  // TODO Michał
-  // a = G * m * direction() / distanceTo(where)^2
-  return sf::Vector2f();
+  float dist = distanceTo(where);
+  float coefficient = mass / (dist * dist);
+  sf::Vector2f dirVect = where - position / dist;
+  return dirVect * coefficient;
 }
 
 void GHole::input(sf::Event event) {}
@@ -30,15 +31,12 @@ void GHole::draw(sf::RenderWindow& window) {
 }
 
 void GHole::setWorld(World *world) {
-  //TODO Michał
-  //świat powieinien trzymać też tabelę obiektów wpływających
-  // na ruch pocisków i tutaj powinniśmy ją manipulować lub wywoływać funkcje do tego
   if (this->world != world) {
     if (this->world != nullptr) {
       //usuń obiekt z poprzedniego world
     }
-    //dodaj obiekt do nowego world
-    // super::setWorld(world);
+    this->world = world;
+    world->addHoleEntity(this);
   }
 }
 

@@ -15,9 +15,9 @@ int main()
 
     // world.addEntity(new Circle({100, 100}, 100, sf::Color::Green));
     // world.addEntity(new Circle({300, 600}, 150, sf::Color::Blue));
-    world.addEntity(new SimpleBullet({400,400}, {40,10}));
-    world.addEntity(new BlackHole({100,100}, 10, 10));
-    world.addEntity(new Spaceship({500, 500}));
+    world.addEntity(new SimpleBullet({470, 470}, {40,10}));
+    world.addEntity(new BlackHole({500, 500}, 10, 10));
+    world.addEntity(new Spaceship({100, 100}));
 
     world.run();
     return 0;

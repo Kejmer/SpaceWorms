@@ -1,3 +1,4 @@
+#include <cmath>
 #include "../include/utility.h"
 
 void centerOrigin(sf::Shape& shape) {
@@ -12,4 +13,10 @@ float toRadian(float angle) {
 
 float toDegrees(float angle) {
     return 180. / M_PI * angle;
+}
+
+float calcDistance(sf::Vector2f a, sf::Vector2f b) {
+	float distX = a.x - b.x;
+    float distY = a.y - b.y;
+    return std::sqrt(distX * distX + distY * distY);
 }

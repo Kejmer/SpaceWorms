@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include "entity.h"
+#include "hole.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -16,7 +17,9 @@ public:
     void run();
 
     void addEntity(Entity* entity);
+    void addHoleEntity(GHole *hole);
     void removeEntity(Entity* entity);
+    sf::Vector2f calcGravAccel(sf::Vector2f pos);
 
     bool isTimeFlowing();
 private:
@@ -34,12 +37,13 @@ private:
     
     sf::RenderWindow& window;
     std::vector<std::unique_ptr<Entity>> entities;
+    std::vector<GHole*> holeEntities; //póki nie chcemy usuwać czarnych dziur to będzie działać
     std::vector<Change> pending_changes;
 
     static const sf::Time frame_time;
 
     bool is_time_flowing;
-    float gravity_multiplier;
+    float gravity_multiplier = 9;
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "../include/entity.h"
+#include "../include/utility.h"
 
 Entity::Entity(sf::Vector2f position)
 : position(position)
@@ -22,6 +23,5 @@ World* Entity::getWorld() {
 
 //Odległość punktu od entity
 float Entity::distanceTo(sf::Vector2f where) {
-  //TODO Michał
-  return 0;
+    return calcDistance(position, where);
 }
