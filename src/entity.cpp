@@ -12,10 +12,16 @@ sf::Vector2f Entity::getPosition() {
     return position;
 }
 
-void Entity::setWorld(World* world) {
+void Entity::setWorld(World *world) {
     this->world = world;
 }
 
 World* Entity::getWorld() {
     return world;
+}
+
+//Odległość punktu od entity
+float Entity::distanceTo(sf::Vector2f where) {
+  //TODO Michał
+  return 0;
 }

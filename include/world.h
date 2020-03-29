@@ -39,6 +39,7 @@ private:
     static const sf::Time frame_time;
 
     bool is_time_flowing;
+    float gravity_multiplier;
 };
 
 #endif
