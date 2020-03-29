@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include "entity.h"
+#include "delayedContainer.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -15,26 +16,14 @@ public:
     void draw();
     void run();
 
-    void addEntity(Entity* entity);
+    std::shared_ptr<Entity> addEntity(Entity* entity);
+    void addEntity(std::shared_ptr<Entity> entity);
     void removeEntity(Entity* entity);
 
     bool isTimeFlowing();
 private:
-    enum Action {
-        Add,
-        Remove
-    };
-
-    struct Change {
-        Action action;
-        Entity* entity;
-    };
-
-    void applyPendingChanges();
-    
     sf::RenderWindow& window;
-    std::vector<std::unique_ptr<Entity>> entities;
-    std::vector<Change> pending_changes;
+    DelayedContainer<Entity> entities;
 
     static const sf::Time frame_time;
 
