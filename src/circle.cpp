@@ -1,6 +1,5 @@
 #include "../include/circle.h"
-
-#include <cmath>
+#include "../include/utility.h"
 
 Circle::Circle(sf::Vector2f position, float radius, sf::Color color)
 : Entity(position)
@@ -9,9 +8,7 @@ Circle::Circle(sf::Vector2f position, float radius, sf::Color color)
     circle.setPosition(position);
     circle.setFillColor(color);
 
-    sf::FloatRect bounds = circle.getLocalBounds();
-    circle.setOrigin(std::floor(bounds.left + bounds.width / 2.), 
-                     std::floor(bounds.top + bounds.height / 2.));
+    centerOrigin(circle);
 }
 
 void Circle::input(sf::Event event) {}
