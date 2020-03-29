@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
+const float eps = 1e-6;
+
 void centerOrigin(sf::Shape& shape);
 
 float toRadian(float angle);

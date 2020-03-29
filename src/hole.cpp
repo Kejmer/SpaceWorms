@@ -1,6 +1,7 @@
 #include <cmath>
 #include "../include/hole.h"
 #include "../include/world.h"
+#include "../include/utility.h"
 
 GHole::GHole(sf::Vector2f position, float mass, float radius)
 : Entity(position)
@@ -16,9 +17,12 @@ GHole::GHole(sf::Vector2f position, float mass, float radius)
 
 sf::Vector2f GHole::acceleration(sf::Vector2f where) {
   float dist = distanceTo(where);
+  if (std::abs(dist) < eps) {
+    return {0,0};
+  }
   float coefficient = mass / (dist * dist);
-  sf::Vector2f dirVect = where - position / dist;
-  return dirVect * coefficient;
+  sf::Vector2f dirVect = (where - position) / dist;
+  return dirVect * (coefficient * -1.f);
 }
 
 void GHole::input(sf::Event event) {}
