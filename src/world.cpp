@@ -58,8 +58,20 @@ void World::addEntity(Entity* entity) {
     pending_changes.push_back({Add, entity});
 }
 
+void World::addHoleEntity(GHole* hole) {
+    holeEntities.push_back(hole);
+}
+
 void World::removeEntity(Entity* entity) {
     pending_changes.push_back({Remove, entity});
+}
+
+sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
+    sf::Vector2f res(0, 0);
+    for (GHole *h : holeEntities) {
+        res += h->acceleration(pos);
+    }
+    return res * gravity_multiplier;
 }
 
 bool World::isTimeFlowing() {
