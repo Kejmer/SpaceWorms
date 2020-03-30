@@ -5,7 +5,6 @@ const sf::Time World::frame_time = sf::seconds(1./60.);
 World::World(sf::RenderWindow& window)
 : window(window)
 , entities()
-, pending_changes()
 , is_time_flowing(false) {}
 
 void World::input() {
@@ -23,7 +22,8 @@ void World::update(sf::Time dt) {
     for (auto& entity : entities)
         entity->update(dt);
 
-    applyPendingChanges();
+    entities.applyPendingChanges();
+    holeEntities.applyPendingChanges();
 }
 
 void World::draw() {
@@ -53,22 +53,32 @@ void World::run() {
     }
 }
 
-void World::addEntity(Entity* entity) {
+std::shared_ptr<Entity> World::addEntity(Entity* entity) {
     entity->setWorld(this);
-    pending_changes.push_back({Add, entity});
+    return entities.add(entity);
+}
+
+void World::addEntity(std::shared_ptr<Entity> entity) {
+    entity->setWorld(this);
+    entities.add(entity);
 }
 
 void World::addHoleEntity(GHole* hole) {
-    holeEntities.push_back(hole);
+    holeEntities.add(hole);
+}
+
+void World::removeHoleEntity(GHole *hole) {
+    holeEntities.remove(hole);
+    entities.remove(hole);
 }
 
 void World::removeEntity(Entity* entity) {
-    pending_changes.push_back({Remove, entity});
+    entities.remove(entity);
 }
 
 sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     sf::Vector2f res(0, 0);
-    for (GHole *h : holeEntities) {
+    for (std::shared_ptr<GHole> h : holeEntities) {
         res += h->acceleration(pos);
     }
     return res * gravity_multiplier;
@@ -76,22 +86,4 @@ sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
 
 bool World::isTimeFlowing() {
     return is_time_flowing;
-}
-
-void World::applyPendingChanges() {
-    for (auto& change : pending_changes)
-        switch (change.action) {
-            case Add:
-                entities.push_back(std::unique_ptr<Entity>(change.entity));
-                break;
-
-            case Remove:
-                for (auto it = entities.begin(); it != entities.end(); it++)
-                    if ((*it).get() == change.entity) {
-                        (*it).get()->setWorld(nullptr);
-                        entities.erase(it);
-                    }
-        }
-
-    pending_changes.clear();
 }

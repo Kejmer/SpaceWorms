@@ -3,6 +3,7 @@
 
 #include "entity.h"
 #include "hole.h"
+#include "delayedContainer.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -16,29 +17,19 @@ public:
     void draw();
     void run();
 
-    void addEntity(Entity* entity);
     void addHoleEntity(GHole *hole);
+    void removeHoleEntity(GHole *hole);
+
+    std::shared_ptr<Entity> addEntity(Entity* entity);
+    void addEntity(std::shared_ptr<Entity> entity);
     void removeEntity(Entity* entity);
     sf::Vector2f calcGravAccel(sf::Vector2f pos);
 
     bool isTimeFlowing();
 private:
-    enum Action {
-        Add,
-        Remove
-    };
-
-    struct Change {
-        Action action;
-        Entity* entity;
-    };
-
-    void applyPendingChanges();
-    
     sf::RenderWindow& window;
-    std::vector<std::unique_ptr<Entity>> entities;
-    std::vector<GHole*> holeEntities; //póki nie chcemy usuwać czarnych dziur to będzie działać
-    std::vector<Change> pending_changes;
+    DelayedContainer<GHole> holeEntities;
+    DelayedContainer<Entity> entities;
 
     static const sf::Time frame_time;
 

@@ -9,10 +9,7 @@ GHole::GHole(sf::Vector2f position, float mass, float radius)
   hole.setPosition(position);
   hole.setRadius(radius);
 
-  sf::FloatRect bounds = hole.getLocalBounds();
-  hole.setOrigin(std::floor(bounds.left + bounds.width / 2.),
-                 std::floor(bounds.top + bounds.height / 2.));
-
+  centerOrigin(hole);
 }
 
 sf::Vector2f GHole::acceleration(sf::Vector2f where) {
