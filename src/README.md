@@ -1,0 +1,2 @@
+* Jeżeli jakiś obiekt ma dedykowaną funkcję dodającą go do świata (np. dziury mają addHoleEntity), to używajmy jej zamiast domyślnej funkcji addEntity
+* Jeżeli chcemy dodać jakiś obiekt do kilku DelayedContainerów, to pamiętajmy żeby dodawać do nich ten sam shared_ptr, a nie kilka różnych przechowujących ten sam wskaźnik (funkcja add przyjmująca zwykły wskaźnik zwraca utworzony shared, więc możemy z tego skorzystać)
