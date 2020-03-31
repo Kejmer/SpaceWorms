@@ -18,8 +18,19 @@ private:
     };
 
     struct Change {
+        Change(Action action, std::shared_ptr<T> object)
+        : action(action)
+        , shared_object(object)
+        , object(nullptr) {}
+
+        Change(Action action, T* object)
+        : action(action)
+        , shared_object()
+        , object(object) {}
+
         Action action;
-        std::shared_ptr<T> object;
+        std::shared_ptr<T> shared_object;
+        T* object;
     };
 
     std::vector<Change> pending_changes;

@@ -37,7 +37,6 @@ void GHole::setWorld(World *world) {
       //usuń obiekt z poprzedniego world
     }
     this->world = world;
-    world->addHoleEntity(this);
   }
 }
 

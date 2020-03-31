@@ -64,7 +64,8 @@ void World::addEntity(std::shared_ptr<Entity> entity) {
 }
 
 void World::addHoleEntity(GHole* hole) {
-    holeEntities.add(hole);
+    auto ptr = holeEntities.add(hole);
+    entities.add(ptr);
 }
 
 void World::removeHoleEntity(GHole *hole) {
