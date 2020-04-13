@@ -18,6 +18,8 @@ public:
 
     virtual void setWorld(World *world);
     World* getWorld();
+
+    virtual void move(sf::Vector2f vector);
 protected:
     float distanceTo(sf::Vector2f where);
     sf::Vector2f position;
