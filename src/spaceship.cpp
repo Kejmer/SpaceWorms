@@ -47,7 +47,7 @@ void Spaceship::realtimeInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) 
         move_dir += 1;
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         move_dir -= 1;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
