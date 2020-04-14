@@ -4,7 +4,7 @@
 #include "../include/utility.h"
 
 GHole::GHole(sf::Vector2f position, float mass, float radius)
-: Entity(position)
+: Entity(position, Entity::Hole)
 , mass(mass) {
   hole.setPosition(position);
   hole.setRadius(radius);

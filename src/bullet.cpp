@@ -3,7 +3,7 @@
 #include "../include/world.h"
 
 SimpleBullet::SimpleBullet(sf::Vector2f position, sf::Vector2f velocity)
-: Entity(position)
+: Entity(position, Entity::Bullet)
 , bullet(2.)
 , velocity(velocity) {
   bullet.setPosition(position);
