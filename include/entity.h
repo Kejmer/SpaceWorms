@@ -21,6 +21,7 @@ public:
 
     virtual void move(sf::Vector2f vector);
 protected:
+    bool isTimeFlowing();
     float distanceTo(sf::Vector2f where);
     sf::Vector2f position;
     World* world;

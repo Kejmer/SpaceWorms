@@ -5,7 +5,7 @@ const sf::Time World::frame_time = sf::seconds(1./60.);
 World::World(sf::RenderWindow& window)
 : window(window)
 , entities()
-, is_time_flowing(false) {}
+, is_time_flowing(true) {}
 
 void World::input() {
     sf::Event event;
@@ -21,6 +21,11 @@ void World::input() {
 void World::update(sf::Time dt) {
     for (auto& entity : entities)
         entity->update(dt);
+    // if poniżej to fragment prezentujący funkcjonalność,
+    // zostanie usunięty po dodaniu slidera czasu (życzenia inwestora)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+        is_time_flowing = !is_time_flowing;
+    }
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
@@ -45,7 +50,6 @@ void World::run() {
         while (last_update > frame_time) {
             last_update -= frame_time;
 
-            is_time_flowing = false;
             input();
             update(frame_time);
         }
@@ -87,4 +91,8 @@ sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
 
 bool World::isTimeFlowing() {
     return is_time_flowing;
+}
+
+bool Entity::isTimeFlowing() {
+    return world->isTimeFlowing();
 }
