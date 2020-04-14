@@ -25,3 +25,7 @@ World* Entity::getWorld() {
 float Entity::distanceTo(sf::Vector2f where) {
     return calcDistance(position, where);
 }
+
+void Entity::move(sf::Vector2f vector) {
+    position += vector;
+}
