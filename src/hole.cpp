@@ -2,6 +2,7 @@
 #include "../include/hole.h"
 #include "../include/world.h"
 #include "../include/utility.h"
+#include "../include/boundingHitbox.h"
 
 GHole::GHole(sf::Vector2f position, float mass, float radius)
 : Entity(position, Entity::Hole)
@@ -10,6 +11,8 @@ GHole::GHole(sf::Vector2f position, float mass, float radius)
   hole.setRadius(radius);
 
   centerOrigin(hole);
+
+  hitbox = std::unique_ptr<BoundingHitbox>(new BoundingHitbox{this, &hole});
 }
 
 sf::Vector2f GHole::acceleration(sf::Vector2f where) {
@@ -29,6 +32,7 @@ void GHole::update(sf::Time dt) {}
 
 void GHole::draw(sf::RenderWindow& window) {
   window.draw(hole);
+  // hitbox->draw(window);
 }
 
 void GHole::setWorld(World *world) {

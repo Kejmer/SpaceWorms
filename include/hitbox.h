@@ -14,7 +14,7 @@ public:
 
     virtual void update() = 0;
 
-    // void addRectangle(sf::RectangleShape *rectangle);
+    virtual void addRectangle(sf::RectangleShape rectangle);
     bool doesIntersect(Hitbox &hitbox);
     std::vector<sf::RectangleShape> *getRectangles();
     Entity *getEntity();

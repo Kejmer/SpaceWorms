@@ -1,4 +1,5 @@
 #include "../include/world.h"
+#include "../include/collisions.h"
 
 const sf::Time World::frame_time = sf::seconds(1./60.);
 
@@ -21,6 +22,8 @@ void World::input() {
 void World::update(sf::Time dt) {
     for (auto& entity : entities)
         entity->update(dt);
+
+    checkCollisions();
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
@@ -64,6 +67,7 @@ void World::addEntity(std::shared_ptr<Entity> entity) {
 }
 
 void World::addHoleEntity(GHole* hole) {
+    hole->setWorld(this);
     auto ptr = holeEntities.add(hole);
     entities.add(ptr);
 }
@@ -87,4 +91,11 @@ sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
 
 bool World::isTimeFlowing() {
     return is_time_flowing;
+}
+
+void World::checkCollisions() {
+    for (unsigned int i = 0; i < entities.size(); i++)
+        for (unsigned int j = i + 1; j < entities.size(); j++)
+            if (entities[i]->doesCollide(*entities[j])) 
+                collide(entities[i].get(), entities[j].get());
 }
