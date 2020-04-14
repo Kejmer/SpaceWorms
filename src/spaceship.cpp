@@ -6,7 +6,8 @@
 
 const float Spaceship::rotation_speed = 90;
 const float Spaceship::shots_per_second = 3;
-const float Spaceship::bullet_speed = 50;
+const float Spaceship::bullet_speed = 100;
+const float Spaceship::ship_speed = 70;
 
 Spaceship::Spaceship(sf::Vector2f position) 
 : Entity(position, Entity::Spaceship)
@@ -27,8 +28,11 @@ void Spaceship::update(sf::Time dt) {
 
     realtimeInput();
 
+    sf::Vector2f direction = getDirection();
+    move(direction * move_dir * bullet_speed * dt.asSeconds());
     ship.rotate(dt.asSeconds() * rotation * rotation_speed);
     rotation = 0;
+    move_dir = 0;
 
     hitbox->update();
 }
@@ -55,7 +59,18 @@ void Spaceship::draw(sf::RenderWindow& window) {
 
 void Spaceship::shoot() {}
 
+void Spaceship::move(sf::Vector2f vector) {
+    Entity::move(vector);
+    ship.move(vector);
+}
+
 void Spaceship::realtimeInput() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) 
+        move_dir += 1;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        move_dir -= 1;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         rotation += 1;
 
@@ -65,9 +80,13 @@ void Spaceship::realtimeInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && 
         last_shot.asSeconds() >= 1. / shots_per_second) {
 
-        float rotation = toRadian(ship.getRotation());
-        sf::Vector2f direction{sinf(rotation), -cosf(rotation)};
+        sf::Vector2f direction = getDirection();
         world->addEntity(new SimpleBullet{position + direction * 35.f, direction * bullet_speed});
         last_shot = sf::Time::Zero;
     } 
+}
+
+sf::Vector2f Spaceship::getDirection() {
+    float rotation = toRadian(ship.getRotation());
+    return {sinf(rotation), -cosf(rotation)};
 }

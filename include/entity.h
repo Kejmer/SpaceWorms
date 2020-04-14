@@ -35,6 +35,8 @@ public:
     bool doesCollide(Entity &entity);
 
     virtual sf::Transform getTransform() const;
+    
+    virtual void move(sf::Vector2f vector);
 protected:
     CollisionCategory collision_category;
 

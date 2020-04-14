@@ -44,3 +44,7 @@ bool Entity::doesCollide(Entity &entity) {
 sf::Transform Entity::getTransform() const {
     return sf::Transform::Identity;
 }
+
+void Entity::move(sf::Vector2f vector) {
+    position += vector;
+}
