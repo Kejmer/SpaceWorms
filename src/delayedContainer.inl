@@ -28,6 +28,7 @@ void DelayedContainer<T>::applyPendingChanges() {
                     if ((*it).get() == change.object) {
                         (*it).get()->setWorld(nullptr);
                         this->erase(it);
+                        break;
                     }
         }
 

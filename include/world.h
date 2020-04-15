@@ -27,6 +27,8 @@ public:
 
     bool isTimeFlowing();
 private:
+    void checkCollisions();
+
     sf::RenderWindow& window;
     DelayedContainer<GHole> holeEntities;
     DelayedContainer<Entity> entities;
