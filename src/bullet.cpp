@@ -25,8 +25,9 @@ void SimpleBullet::update(sf::Time dt) {
     velocity += acc * dt.asSeconds();
     setPosition(position + velocity * dt.asSeconds());
 
-  bullet.setPosition(position);
-  hitbox->update();
+    bullet.setPosition(position);
+    hitbox->update();
+  }
 }
 
 void SimpleBullet::draw(sf::RenderWindow& window) {
