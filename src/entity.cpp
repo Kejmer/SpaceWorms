@@ -1,9 +1,12 @@
 #include "../include/entity.h"
 #include "../include/utility.h"
+#include "../include/boundingHitbox.h"
 
-Entity::Entity(sf::Vector2f position)
-: position(position)
-, world(nullptr) {}
+Entity::Entity(sf::Vector2f position, Entity::CollisionCategory category)
+: collision_category(category)
+, position(position)
+, world(nullptr)
+, hitbox(new BoundingHitbox{this}) {}
 
 void Entity::setPosition(sf::Vector2f position) {
     this->position = position;
@@ -24,6 +27,22 @@ World* Entity::getWorld() {
 //Odległość punktu od entity
 float Entity::distanceTo(sf::Vector2f where) {
     return calcDistance(position, where);
+}
+
+Entity::CollisionCategory Entity::getCategory() const {
+    return collision_category;
+}
+
+void Entity::setCategory(Entity::CollisionCategory category) {
+    collision_category = category;
+}
+
+bool Entity::doesCollide(Entity &entity) {
+    return hitbox->doesIntersect(*entity.hitbox);
+}
+
+sf::Transform Entity::getTransform() const {
+    return sf::Transform::Identity;
 }
 
 void Entity::move(sf::Vector2f vector) {

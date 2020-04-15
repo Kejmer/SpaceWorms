@@ -1,4 +1,5 @@
 #include "../include/world.h"
+#include "../include/collisions.h"
 
 const sf::Time World::frame_time = sf::seconds(1./60.);
 
@@ -26,6 +27,8 @@ void World::update(sf::Time dt) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
         is_time_flowing = !is_time_flowing;
     }
+
+    checkCollisions();
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
@@ -68,6 +71,7 @@ void World::addEntity(std::shared_ptr<Entity> entity) {
 }
 
 void World::addHoleEntity(GHole* hole) {
+    hole->setWorld(this);
     auto ptr = holeEntities.add(hole);
     entities.add(ptr);
 }
@@ -95,4 +99,11 @@ bool World::isTimeFlowing() {
 
 bool Entity::isTimeFlowing() {
     return world->isTimeFlowing();
+}
+
+void World::checkCollisions() {
+    for (unsigned int i = 0; i < entities.size(); i++)
+        for (unsigned int j = i + 1; j < entities.size(); j++)
+            if (entities[i]->doesCollide(*entities[j])) 
+                collide(entities[i].get(), entities[j].get());
 }

@@ -17,6 +17,7 @@ public:
 private:
     void realtimeInput();
     sf::Vector2f getDirection();
+    void createHitbox();
     
     static const float rotation_speed;
     static const float shots_per_second;
