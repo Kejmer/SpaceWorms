@@ -17,7 +17,7 @@ public:
         Spaceship,
         None
     };
-    
+
     Entity(sf::Vector2f position, CollisionCategory category = None);
     virtual void input(sf::Event event) = 0;
     virtual void update(sf::Time dt) = 0;
@@ -35,11 +35,12 @@ public:
     bool doesCollide(Entity &entity);
 
     virtual sf::Transform getTransform() const;
-    
+
     virtual void move(sf::Vector2f vector);
 protected:
     CollisionCategory collision_category;
 
+    bool isTimeFlowing();
     float distanceTo(sf::Vector2f where);
     sf::Vector2f position;
     World* world;

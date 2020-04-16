@@ -9,14 +9,17 @@ const float Spaceship::shots_per_second = 3;
 const float Spaceship::bullet_speed = 100;
 const float Spaceship::ship_speed = 90;
 
-Spaceship::Spaceship(sf::Vector2f position) 
+int Spaceship::counter = 1;
+
+Spaceship::Spaceship(sf::Vector2f position, sf::Color color)
 : Entity(position, Entity::Spaceship)
 , ship(30, 3)
 , rotation(0)
 , last_shot(sf::Time::Zero) {
     centerOrigin(ship);
     ship.setPosition(position);
-    ship.setFillColor(sf::Color::Red);
+    ship.setFillColor(color);
+    id = counter++;
 
     createHitbox();
 }
@@ -24,17 +27,22 @@ Spaceship::Spaceship(sf::Vector2f position)
 void Spaceship::input(sf::Event event) {}
 
 void Spaceship::update(sf::Time dt) {
+    if (id == world->getMoveRequest())
+        world->clearRequest();
+
     last_shot += dt;
 
-    realtimeInput();
+    if (id == world->getController()) {
+        realtimeInput();
 
-    sf::Vector2f direction = getDirection();
-    move(direction * move_dir * ship_speed * dt.asSeconds());
-    ship.rotate(dt.asSeconds() * rotation * rotation_speed);
-    rotation = 0;
-    move_dir = 0;
+        sf::Vector2f direction = getDirection();
+        move(direction * move_dir * ship_speed * dt.asSeconds());
+        ship.rotate(dt.asSeconds() * rotation * rotation_speed);
+        rotation = 0;
+        move_dir = 0;
 
-    hitbox->update();
+        hitbox->update();
+    }
 }
 
 void Spaceship::draw(sf::RenderWindow& window) {
@@ -42,7 +50,14 @@ void Spaceship::draw(sf::RenderWindow& window) {
     // hitbox->draw(window);
 }
 
-void Spaceship::shoot() {}
+void Spaceship::shoot() {
+    sf::Vector2f direction = getDirection();
+    world->addEntity(new SimpleBullet{position + direction * 35.f, direction * bullet_speed});
+    last_shot = sf::Time::Zero;
+
+    world->clearRequest();
+    world->nextTurn();
+}
 
 void Spaceship::move(sf::Vector2f vector) {
     Entity::move(vector);
@@ -50,25 +65,26 @@ void Spaceship::move(sf::Vector2f vector) {
 }
 
 void Spaceship::realtimeInput() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        world->moveRequest(id);
         move_dir += 1;
+    }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        world->moveRequest(id);
         move_dir -= 1;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
+        last_shot.asSeconds() >= 1. / shots_per_second)
+        shoot();
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         rotation += 1;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         rotation -= 1;
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && 
-        last_shot.asSeconds() >= 1. / shots_per_second) {
-
-        sf::Vector2f direction = getDirection();
-        world->addEntity(new SimpleBullet{position + direction * 35.f, direction * bullet_speed});
-        last_shot = sf::Time::Zero;
-    } 
 }
 
 sf::Vector2f Spaceship::getDirection() {
@@ -96,4 +112,8 @@ void Spaceship::createHitbox() {
     rect.move({-rect.getPosition().x, 0});
     rect.rotate(45);
     hitbox->addRectangle(rect);
+}
+
+int Spaceship::getID() {
+    return id;
 }

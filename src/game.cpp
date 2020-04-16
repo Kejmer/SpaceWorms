@@ -3,6 +3,7 @@
 #include "../include/bullet.h"
 #include "../include/hole.h"
 #include "../include/spaceship.h"
+#include "../include/team.h"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -13,12 +14,12 @@ int main()
     World world(window);
     sf::Vector2f v(100, 100);
 
-    // world.addEntity(new Circle({100, 100}, 100, sf::Color::Green));
-    // world.addEntity(new Circle({300, 600}, 150, sf::Color::Blue));
-    world.addEntity(new SimpleBullet({470, 470}, {40,10}));
     world.addHoleEntity(new BlackHole({500, 500}, 700, 30));
     world.addHoleEntity(new BlackHole({700, 300}, 500, 20));
-    world.addEntity(new Spaceship({100, 100}));
+    world.newTeam(sf::Color::Red);
+    world.newTeam(sf::Color::Blue);
+    world.newShip({100,100}, 1);
+    world.newShip({700,500}, 2);
 
     world.run();
     return 0;
