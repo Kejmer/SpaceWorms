@@ -55,6 +55,7 @@ void Spaceship::shoot() {
     world->addEntity(new SimpleBullet{position + direction * 35.f, direction * bullet_speed});
     last_shot = sf::Time::Zero;
 
+    world->clearRequest();
     world->nextTurn();
 }
 
