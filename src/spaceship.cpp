@@ -48,12 +48,12 @@ void Spaceship::update(sf::Time dt) {
 void Spaceship::draw(sf::RenderWindow& window) {
     window.draw(ship);
     // hitbox->draw(window);
-    for(auto att : attachables_to_draw)
+    for (auto att : attachables_to_draw)
         att->draw(window);
 }
 
 void Spaceship::shoot() {
-    if(getStatistics(AmmoCount) <= 0)
+    if (getStatistics(AmmoCount) <= 0)
         return;
 
     sf::Vector2f direction = getDirection();

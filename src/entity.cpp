@@ -63,8 +63,8 @@ void Entity::addAttachable(std::shared_ptr<Attachable> att) {
 }
 
 void Entity::removeAttachable(Attachable *att) {
-    for(auto it = attachables_to_draw.begin(); it != attachables_to_draw.end(); it++)
-        if(it->get() == att) {
+    for (auto it = attachables_to_draw.begin(); it != attachables_to_draw.end(); it++)
+        if (it->get() == att) {
             attachables_to_draw.erase(it);
             break;
         }
