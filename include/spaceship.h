@@ -19,7 +19,7 @@ public:
         BulletSpeed
     };
 
-    Spaceship(sf::Vector2f position);
+    Spaceship(sf::Vector2f position, sf::Color color = sf::Color::Red);
     void input(sf::Event event);
     void update(sf::Time dt);
     void draw(sf::RenderWindow& window);
@@ -29,11 +29,16 @@ public:
 
     void updateStatistics(Statistics stat, float new_value);
     float getStatistics(Statistics stat);
+    int getID();
 private:
     void realtimeInput();
     sf::Vector2f getDirection();
     void createHitbox();
     void initStatistics();
+
+    static int counter;
+    int id;
+    int team_id;
 
     std::map<Statistics, float> statistics_holder;
     sf::CircleShape ship;

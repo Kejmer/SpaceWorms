@@ -20,12 +20,14 @@ SimpleBullet::SimpleBullet(sf::Vector2f position, sf::Vector2f velocity)
 void SimpleBullet::input(sf::Event event) {}
 
 void SimpleBullet::update(sf::Time dt) {
-  sf::Vector2f acc = world->calcGravAccel(position);
-  velocity += acc * dt.asSeconds();
-  setPosition(position + velocity * dt.asSeconds());
+  if (isTimeFlowing()) {
+    sf::Vector2f acc = world->calcGravAccel(position);
+    velocity += acc * dt.asSeconds();
+    setPosition(position + velocity * dt.asSeconds());
 
-  bullet.setPosition(position);
-  hitbox->update();
+    bullet.setPosition(position);
+    hitbox->update();
+  }
 }
 
 void SimpleBullet::draw(sf::RenderWindow& window) {
