@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "hitbox.h"
+#include "attachable.h"
 
 // Forward declaration
 class World;
@@ -28,6 +29,7 @@ public:
 
     virtual void setWorld(World *world);
     World* getWorld();
+    void despawn();
 
     CollisionCategory getCategory() const;
     void setCategory(CollisionCategory category);
@@ -37,6 +39,10 @@ public:
     virtual sf::Transform getTransform() const;
     
     virtual void move(sf::Vector2f vector);
+
+    void addAttachable(Attachable *att);
+    void addAttachable(std::shared_ptr<Attachable> att);
+    void removeAttachable(Attachable *att);
 protected:
     CollisionCategory collision_category;
 
@@ -45,6 +51,7 @@ protected:
     World* world;
 
     std::unique_ptr<Hitbox> hitbox;
+    std::vector<std::shared_ptr<Attachable>> attachables_to_draw;
 };
 
 #endif

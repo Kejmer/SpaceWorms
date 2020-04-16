@@ -5,10 +5,12 @@
 #include <vector>
 #include <memory>
 
+#include "attachable.h"
+
 // Forward declaration
 class Entity;
 
-class Hitbox {
+class Hitbox : public Attachable {
 public:
     Hitbox(Entity *entity);
 
@@ -24,7 +26,6 @@ public:
 private:
     bool doRectanglesIntersect(sf::RectangleShape &rect1, sf::RectangleShape &rect2);
 protected:
-    Entity *entity;
     std::vector<sf::RectangleShape> rectangles;
 };
 

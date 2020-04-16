@@ -51,7 +51,7 @@ bool isInside(std::vector<Edge> &edgesOutside, std::vector<Edge> &edgesInside) {
 }
 
 Hitbox::Hitbox(Entity *entity)
-: entity(entity)
+: Attachable(entity)
 , rectangles() {}
 
 void Hitbox::addRectangle(sf::RectangleShape rectangle) {}
