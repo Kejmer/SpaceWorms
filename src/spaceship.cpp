@@ -11,6 +11,7 @@ Spaceship::Spaceship(sf::Vector2f position, sf::Color color)
 , statistics_holder()
 , ship(30, 3)
 , rotation(0)
+, move_dir(0)
 , last_shot(sf::Time::Zero)
 , healthbar()
 , ammo_text() {
@@ -134,6 +135,8 @@ void Spaceship::createHitbox() {
     rect.move({-rect.getPosition().x, 0});
     rect.rotate(45);
     hitbox->addRectangle(rect);
+
+    hitbox->update();
 }
 
 void Spaceship::initStatistics() {
