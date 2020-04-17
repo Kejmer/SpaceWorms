@@ -23,13 +23,16 @@ void Bar::draw(sf::RenderWindow &window) {
     sf::RectangleShape left = rectangle;
     sf::Vector2f size = rectangle.getSize();
     left.setSize({current_value / max_value * size.x, size.y});
-    left.setPosition(left.getPosition() + entity->getPosition());
+
+    if (entity != nullptr)
+        left.setPosition(left.getPosition() + entity->getPosition());
     left.setFillColor(left_color);
     window.draw(left);
 
     sf::RectangleShape right = rectangle;
     right.setSize({(1 - current_value / max_value) * size.x, size.y});
-    right.setPosition(right.getPosition() + entity->getPosition());
+    if (entity != nullptr)
+        right.setPosition(right.getPosition() + entity->getPosition());
     right.setOrigin({-(left.getSize().x - size.x / 2), right.getOrigin().y});
     right.setFillColor(right_color);
     window.draw(right);

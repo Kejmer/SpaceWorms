@@ -27,7 +27,9 @@ TextBox::TextBox(Entity *entity, const sf::String &string, sf::Vector2f position
 
 void TextBox::draw(sf::RenderWindow &window) {
     sf::Vector2f pos = text->getPosition();
-    text->move(entity->getPosition());
+
+    if (entity != nullptr)
+        text->move(entity->getPosition());
     centerOrigin(*text);
     window.draw(*text);
     text->setPosition(pos);
