@@ -6,7 +6,7 @@
 
 int Spaceship::counter = 1;
 
-Spaceship::Spaceship(sf::Vector2f position, sf::Color color)
+Spaceship::Spaceship(sf::Vector2f position, std::string file)
 : Entity(position, Entity::Spaceship)
 , statistics_holder()
 , ship(30, 3)
@@ -17,7 +17,9 @@ Spaceship::Spaceship(sf::Vector2f position, sf::Color color)
 , ammo_text() {
     centerOrigin(ship);
     ship.setPosition(position);
-    ship.setFillColor(color);
+
+    texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+    ship.setTexture(&texture, true);
     id = counter++;
 
     initStatistics();

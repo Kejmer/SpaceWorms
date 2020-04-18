@@ -31,6 +31,8 @@ private:
   sf::Color team_color;
   /// Wskaźnik na świat
   World *world;
+  /// Nazwa pliku do ładowania obrazka
+  std::string ship_file;
 };
 
 

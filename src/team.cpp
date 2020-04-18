@@ -6,6 +6,21 @@ Team::Team(sf::Color color)
 : last_ship(0)
 , team_color(color) {
   id = counter++;
+  if (color == sf::Color::Red) {
+    ship_file = "assets/spaceship_red.png";
+  }
+  else if (color == sf::Color::Blue) {
+    ship_file = "assets/spaceship_blue.png";
+  }
+  else if (color == sf::Color::Yellow) {
+    ship_file = "assets/spaceship_yellow.png";
+  }
+  else if (color == sf::Color::Green) {
+    ship_file = "assets/spaceship_green.png";
+  }
+  else {
+    ship_file = "assets/spaceship_grey.png";
+  }
 }
 
 int Team::nextShip() {
@@ -17,7 +32,7 @@ int Team::nextShip() {
 }
 
 std::shared_ptr<Spaceship> Team::addShip(sf::Vector2f position) {
-  auto ptr = std::make_shared<Spaceship>(position, team_color);
+  auto ptr = std::make_shared<Spaceship>(position, ship_file);
   team_ships.push_back(ptr->getID());
   return ptr;
 }
