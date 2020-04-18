@@ -13,6 +13,7 @@ public:
 
     void draw(sf::RenderWindow &window);
     void updateString(const sf::String &string);
+    void setColor(sf::Color color);
 private:
     sf::Font font;
     sf::String string;
