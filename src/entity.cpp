@@ -1,6 +1,7 @@
 #include "../include/entity.h"
 #include "../include/utility.h"
 #include "../include/boundingHitbox.h"
+#include "../include/world.h"
 
 Entity::Entity(sf::Vector2f position, Entity::CollisionCategory category)
 : collision_category(category)
@@ -22,6 +23,10 @@ void Entity::setWorld(World *world) {
 
 World* Entity::getWorld() {
     return world;
+}
+
+void Entity::despawn() {
+    world->removeEntity(this);
 }
 
 //Odległość punktu od entity
@@ -47,4 +52,20 @@ sf::Transform Entity::getTransform() const {
 
 void Entity::move(sf::Vector2f vector) {
     position += vector;
+}
+
+void Entity::addAttachable(Attachable *att) {
+    attachables_to_draw.push_back(std::shared_ptr<Attachable>(att));
+}
+
+void Entity::addAttachable(std::shared_ptr<Attachable> att) {
+    attachables_to_draw.push_back(att);
+}
+
+void Entity::removeAttachable(Attachable *att) {
+    for (auto it = attachables_to_draw.begin(); it != attachables_to_draw.end(); it++)
+        if (it->get() == att) {
+            attachables_to_draw.erase(it);
+            break;
+        }
 }

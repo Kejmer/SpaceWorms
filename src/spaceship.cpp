@@ -4,22 +4,29 @@
 #include "../include/bullet.h"
 #include "../include/complexHitbox.h"
 
-const float Spaceship::rotation_speed = 90;
-const float Spaceship::shots_per_second = 3;
-const float Spaceship::bullet_speed = 100;
-const float Spaceship::ship_speed = 90;
-
 int Spaceship::counter = 1;
 
 Spaceship::Spaceship(sf::Vector2f position, sf::Color color)
 : Entity(position, Entity::Spaceship)
+, statistics_holder()
 , ship(30, 3)
 , rotation(0)
-, last_shot(sf::Time::Zero) {
+, move_dir(0)
+, last_shot(sf::Time::Zero)
+, healthbar()
+, ammo_text() {
     centerOrigin(ship);
     ship.setPosition(position);
     ship.setFillColor(color);
     id = counter++;
+
+    initStatistics();
+    
+    healthbar = new Bar{this, sf::Color::Green, sf::Color::Red, {50, 5}, {0, 40}, getStatistics(MaxHealth), getStatistics(Healthpoints)};
+    addAttachable(healthbar);
+
+    ammo_text = new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14};
+    addAttachable(ammo_text);
 
     createHitbox();
 }
@@ -31,13 +38,14 @@ void Spaceship::update(sf::Time dt) {
         world->clearRequest();
 
     last_shot += dt;
+    healthbar->setValue(getStatistics(Healthpoints));
 
     if (id == world->getController()) {
         realtimeInput();
 
         sf::Vector2f direction = getDirection();
-        move(direction * move_dir * ship_speed * dt.asSeconds());
-        ship.rotate(dt.asSeconds() * rotation * rotation_speed);
+        move(direction * move_dir * getStatistics(MoveSpeed) * dt.asSeconds());
+        ship.rotate(dt.asSeconds() * rotation * getStatistics(MoveSpeed));
         rotation = 0;
         move_dir = 0;
 
@@ -48,13 +56,20 @@ void Spaceship::update(sf::Time dt) {
 void Spaceship::draw(sf::RenderWindow& window) {
     window.draw(ship);
     // hitbox->draw(window);
+    for (auto att : attachables_to_draw)
+        att->draw(window);
 }
 
 void Spaceship::shoot() {
-    sf::Vector2f direction = getDirection();
-    world->addEntity(new SimpleBullet{position + direction * 35.f, direction * bullet_speed});
-    last_shot = sf::Time::Zero;
+    if (getStatistics(AmmoCount) <= 0)
+        return;
 
+    sf::Vector2f direction = getDirection();
+    world->addEntity(new SimpleBullet{position + direction * 35.f, direction * getStatistics(BulletSpeed)});
+    updateStatistics(AmmoCount, getStatistics(AmmoCount) - 1);
+    ammo_text->updateString("Ammo: " + std::to_string((int)getStatistics(AmmoCount)));
+    last_shot = sf::Time::Zero;
+    
     world->clearRequest();
     world->nextTurn();
 }
@@ -62,6 +77,14 @@ void Spaceship::shoot() {
 void Spaceship::move(sf::Vector2f vector) {
     Entity::move(vector);
     ship.move(vector);
+}
+
+void Spaceship::updateStatistics(Spaceship::Statistics stat, float new_value) {
+    statistics_holder[stat] = new_value;
+}
+
+float Spaceship::getStatistics(Spaceship::Statistics stat) {
+    return statistics_holder[stat];
 }
 
 void Spaceship::realtimeInput() {
@@ -77,7 +100,7 @@ void Spaceship::realtimeInput() {
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
-        last_shot.asSeconds() >= 1. / shots_per_second)
+        last_shot.asSeconds() >= 1. / getStatistics(ShotsPerSecond))
         shoot();
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -112,6 +135,17 @@ void Spaceship::createHitbox() {
     rect.move({-rect.getPosition().x, 0});
     rect.rotate(45);
     hitbox->addRectangle(rect);
+
+    hitbox->update();
+}
+
+void Spaceship::initStatistics() {
+    statistics_holder[MaxHealth] = 100;
+    statistics_holder[Healthpoints] = 100;
+    statistics_holder[ShotsPerSecond] = 3;
+    statistics_holder[MoveSpeed] = 90;
+    statistics_holder[AmmoCount] = 100;
+    statistics_holder[BulletSpeed] = 100;
 }
 
 int Spaceship::getID() {

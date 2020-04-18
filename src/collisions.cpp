@@ -1,5 +1,6 @@
 #include "../include/collisions.h"
 #include "../include/world.h"
+#include "../include/spaceship.h"
 
 inline void swap(Entity **first, Entity **second) {
     auto tmp = *first;
@@ -37,10 +38,23 @@ void collide(Entity* first, Entity* second) {
 
     if (checkAny(&first, &second, Entity::Hole))
         if (second->getCategory() != Entity::Hole && second->getCategory() != Entity::Spaceship)
-            first->getWorld()->removeEntity(second);
+            second->despawn();
 
     if (checkRelation(&first, &second, Entity::Bullet, Entity::Bullet)) {
-        first->getWorld()->removeEntity(second);
-        second->getWorld()->removeEntity(first);
+        first->despawn();
+        second->despawn();
+    }
+
+    if (checkRelation(&first, &second, Entity::Spaceship, Entity::Bullet)) {
+        auto ship = (Spaceship*)first;
+        float health = ship->getStatistics(Spaceship::Healthpoints);
+        health -= 10;
+
+        if (health <= 0)
+            ship->despawn();
+        else
+            ship->updateStatistics(Spaceship::Healthpoints, health);
+
+        second->despawn();
     }
 }

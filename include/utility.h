@@ -6,10 +6,13 @@
 
 const float eps = 1e-6;
 
-void centerOrigin(sf::Shape& shape);
+template<typename T>
+void centerOrigin(T& shape);
 
 float toRadian(float angle);
 float toDegrees(float angle);
 float calcDistance(sf::Vector2f a, sf::Vector2f b);
+
+#include "../src/utility.inl"
 
 #endif

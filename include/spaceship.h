@@ -2,11 +2,23 @@
 #define SPACESHIP_H
 
 #include "entity.h"
+#include "bar.h"
+#include "textBox.h"
 
 #include <SFML/Graphics.hpp>
+#include <map>
 
 class Spaceship : public Entity {
 public:
+    enum Statistics {
+        MaxHealth,
+        Healthpoints,
+        ShotsPerSecond,
+        MoveSpeed,
+        AmmoCount,
+        BulletSpeed
+    };
+
     Spaceship(sf::Vector2f position, sf::Color color = sf::Color::Red);
     void input(sf::Event event);
     void update(sf::Time dt);
@@ -14,25 +26,28 @@ public:
 
     void shoot();
     void move(sf::Vector2f vector);
+
+    void updateStatistics(Statistics stat, float new_value);
+    float getStatistics(Statistics stat);
     int getID();
 private:
     void realtimeInput();
     sf::Vector2f getDirection();
     void createHitbox();
+    void initStatistics();
 
-    static const float rotation_speed;
-    static const float shots_per_second;
-    static const float bullet_speed;
-    static const float ship_speed;
     static int counter;
     int id;
     int team_id;
 
+    std::map<Statistics, float> statistics_holder;
     sf::CircleShape ship;
     int rotation;
     float move_dir;
-
     sf::Time last_shot;
+
+    Bar *healthbar;
+    TextBox *ammo_text;
 };
 
 #endif
