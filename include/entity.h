@@ -20,6 +20,7 @@ public:
     };
 
     Entity(sf::Vector2f position, CollisionCategory category = None);
+    virtual ~Entity() = default;
     virtual void input(sf::Event event) = 0;
     virtual void update(sf::Time dt) = 0;
     virtual void draw(sf::RenderWindow& window) = 0;

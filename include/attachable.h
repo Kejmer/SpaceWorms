@@ -9,6 +9,7 @@ class Entity;
 class Attachable {
 public:
     Attachable(Entity *entity);
+    virtual ~Attachable() = default;
 
     virtual void draw(sf::RenderWindow &window) = 0;
 protected:

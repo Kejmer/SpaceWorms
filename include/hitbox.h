@@ -13,6 +13,7 @@ class Entity;
 class Hitbox : public Attachable {
 public:
     Hitbox(Entity *entity);
+    virtual ~Hitbox() = default;
 
     virtual void update() = 0;
 

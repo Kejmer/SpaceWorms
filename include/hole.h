@@ -6,6 +6,7 @@
 class GHole : public Entity {
 public:
   GHole(sf::Vector2f position, float mass, float radius);
+  virtual ~GHole() = default;
   sf::Vector2f acceleration(sf::Vector2f where);
 
   void input(sf::Event event);
