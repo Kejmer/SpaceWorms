@@ -18,6 +18,7 @@ int Team::nextShip() {
 
 std::shared_ptr<Spaceship> Team::addShip(sf::Vector2f position) {
   auto ptr = std::make_shared<Spaceship>(position, team_color);
+  ptr->setTeam(id);
   team_ships.push_back(ptr->getID());
   return ptr;
 }

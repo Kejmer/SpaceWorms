@@ -21,7 +21,7 @@ Spaceship::Spaceship(sf::Vector2f position, sf::Color color)
     id = counter++;
 
     initStatistics();
-    
+
     healthbar = new Bar{this, sf::Color::Green, sf::Color::Red, {50, 5}, {0, 40}, getStatistics(MaxHealth), getStatistics(Healthpoints)};
     addAttachable(healthbar);
 
@@ -69,7 +69,7 @@ void Spaceship::shoot() {
     updateStatistics(AmmoCount, getStatistics(AmmoCount) - 1);
     ammo_text->updateString("Ammo: " + std::to_string((int)getStatistics(AmmoCount)));
     last_shot = sf::Time::Zero;
-    
+
     world->clearRequest();
     world->nextTurn();
 }
@@ -150,4 +150,8 @@ void Spaceship::initStatistics() {
 
 int Spaceship::getID() {
     return id;
+}
+
+void Spaceship::setTeam(int team_id) {
+    this->team_id = team_id;
 }
