@@ -16,7 +16,8 @@ public:
         ShotsPerSecond,
         MoveSpeed,
         AmmoCount,
-        BulletSpeed
+        BulletSpeed,
+        ShotChargeTime
     };
 
     Spaceship(sf::Vector2f position, sf::Color color = sf::Color::Red);
@@ -45,8 +46,11 @@ private:
     int rotation;
     float move_dir;
     sf::Time last_shot;
+    bool isCharging;
+    sf::Time charge_time;
 
     Bar *healthbar;
+    Bar *shot_charge;
     TextBox *ammo_text;
 };
 
