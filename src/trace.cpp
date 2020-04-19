@@ -2,11 +2,8 @@
 #include "../include/trace.h"
 #include "../include/world.h"
 
-sf::Time const Trace::Decay_rate = sf::seconds(1./60.);
-
 Trace::Trace(sf::Vector2f position)
 : Entity(position, Entity::None)
-, last_update(sf::Time::Zero)
 , trace(1.)
 , alpha(255)
 {
@@ -21,10 +18,7 @@ void Trace::input(sf::Event event) {}
 
 void Trace::update(sf::Time dt) {
   if (isTimeFlowing()) {
-    // last_update += dt;
     alpha--;
-    // alpha -= last_update / decayRate;
-    // last_update %= decayRate;
     trace.setFillColor(sf::Color(255,255,255,alpha));
     if (alpha <= 0)
       world->removeEntity(this);

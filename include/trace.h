@@ -11,8 +11,6 @@ public:
   void draw(sf::RenderWindow& window);
 
 private:
-  static const sf::Time Decay_rate;
-  sf::Time last_update;
   sf::CircleShape trace;
   sf::Color color;
   int alpha;
