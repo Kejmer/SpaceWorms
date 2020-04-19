@@ -30,6 +30,8 @@ public:
     void updateStatistics(Statistics stat, float new_value);
     float getStatistics(Statistics stat);
     int getID();
+
+    void setTeam(int team_id);
 private:
     void realtimeInput();
     sf::Vector2f getDirection();
