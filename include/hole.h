@@ -18,6 +18,8 @@ protected:
   virtual short direction() = 0; //może static? TODO Michał ale nie ten sprint
   float mass;
   sf::CircleShape hole;
+  sf::Texture texture;
+
 };
 
 class BlackHole : public GHole {
@@ -27,5 +29,6 @@ protected:
   typedef GHole super;
   short direction();
 };
+
 
 #endif /* HOLE_H */
