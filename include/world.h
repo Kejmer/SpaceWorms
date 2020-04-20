@@ -41,6 +41,8 @@ public:
     int getController();
     /// Zablokuj możliwość kontroli statkiem aż upłynie czas do następnej tury
     void nextTurn();
+    /// Przedłuż obecnie trwającą turę
+    void extendTurn(sf::Time t);
 private:
     void checkCollisions();
     /// Ustawienie następnej drużyny

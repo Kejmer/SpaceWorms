@@ -2,6 +2,8 @@
 #include "../include/collisions.h"
 #include "../include/bar.h"
 
+#include <SFML/Config.hpp>
+
 const sf::Time World::frame_time = sf::seconds(1./60.);
 const sf::Time World::turn_time = sf::seconds(2.);
 
@@ -35,6 +37,8 @@ void World::update(sf::Time dt) {
     for (auto& entity : entities)
         entity->update(dt);
 
+    checkCollisions();
+
     if (is_time_flowing)
         time_left -= dt;
 
@@ -43,8 +47,6 @@ void World::update(sf::Time dt) {
         time_left = turn_time;
         is_time_flowing = false;
     }
-
-    checkCollisions();
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
@@ -192,4 +194,8 @@ void World::timeMultiplierChanges() {
         time_multiplier += 0.1;
         game_speed_bar->setValue(time_multiplier);
     }
+}
+
+void World::extendTurn(sf::Time t) {
+    time_left += t;
 }
