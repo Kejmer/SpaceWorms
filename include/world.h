@@ -48,6 +48,8 @@ private:
     /// Przekaż kontrolę następnemu statkowi
     void controlNext();
 
+    void timeMultiplierChanges();
+
     sf::RenderWindow& window;
     DelayedContainer<GHole> holeEntities;
     DelayedContainer<Entity> entities;
@@ -57,6 +59,8 @@ private:
     bool requesterId;
     bool is_time_flowing;
     float gravity_multiplier = 900;
+    float max_time_mult = 2;
+    float time_multiplier = 1;
 
     static const sf::Time turn_time;
     sf::Time time_left;
@@ -64,6 +68,9 @@ private:
     std::vector<std::shared_ptr<Team>> teams;
     int current_team;
     int current_ship;
+
+    Bar *game_speed_bar;
+    TextBox *game_speed_text;
 };
 
 #endif

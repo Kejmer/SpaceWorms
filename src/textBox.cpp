@@ -39,3 +39,7 @@ void TextBox::updateString(const sf::String &string) {
     this->string = string;
     text->setString(this->string);
 }
+
+void TextBox::setColor(sf::Color color) {
+    text->setFillColor(color);
+}

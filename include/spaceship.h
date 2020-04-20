@@ -19,7 +19,7 @@ public:
         BulletSpeed
     };
 
-    Spaceship(sf::Vector2f position, sf::Color color = sf::Color::Red);
+    Spaceship(sf::Vector2f position, std::string file="assets/spaceship_grey.png");
     void input(sf::Event event);
     void update(sf::Time dt);
     void draw(sf::RenderWindow& window);
@@ -47,6 +47,8 @@ private:
     int rotation;
     float move_dir;
     sf::Time last_shot;
+    sf::Texture texture;
+
 
     Bar *healthbar;
     TextBox *ammo_text;

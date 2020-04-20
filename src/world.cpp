@@ -1,5 +1,6 @@
 #include "../include/world.h"
 #include "../include/collisions.h"
+#include "../include/bar.h"
 
 const sf::Time World::frame_time = sf::seconds(1./60.);
 const sf::Time World::turn_time = sf::seconds(2.);
@@ -12,6 +13,9 @@ World::World(sf::RenderWindow& window)
 , current_team(0)
 , current_ship(0) {
     time_left = turn_time;
+    game_speed_bar = new Bar{nullptr, sf::Color::White, sf::Color::Yellow, {200, 20}, {100, 10}, max_time_mult, time_multiplier};
+    game_speed_text = new TextBox{nullptr, "Game speed", {40, 10}, 14};
+    game_speed_text->setColor(sf::Color::Black);
 }
 
 void World::input() {
@@ -23,6 +27,8 @@ void World::input() {
         if (event.type == sf::Event::Closed)
             window.close();
     }
+
+    timeMultiplierChanges();
 }
 
 void World::update(sf::Time dt) {
@@ -45,12 +51,22 @@ void World::update(sf::Time dt) {
 }
 
 void World::draw() {
-    //TODO Anita tło
+    sf::Texture texture;
+    texture.loadFromFile("assets/background.png");
+
+    // window.clear(sf::Color::Black);
+    // window.setTexture(texture);
+    sf::Sprite sprite(texture);
     window.clear(sf::Color::Black);
+    window.draw(sprite);
+
     for (auto& entity : entities)
         entity->draw(window);
 
+    game_speed_bar->draw(window);
+    game_speed_text->draw(window);
     window.display();
+
 }
 
 void World::run() {
@@ -65,7 +81,7 @@ void World::run() {
             last_update -= frame_time;
 
             input();
-            update(frame_time);
+            update(frame_time * time_multiplier);
         }
         draw();
     }
@@ -172,4 +188,15 @@ int World::getController() {
 void World::nextTurn() {
     current_ship = 0;
     is_time_flowing = true;
+}
+
+void World::timeMultiplierChanges() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Hyphen) && time_multiplier > 0) {
+        time_multiplier -= 0.1;
+        game_speed_bar->setValue(time_multiplier);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Equal) && time_multiplier < max_time_mult) {
+        time_multiplier += 0.1;
+        game_speed_bar->setValue(time_multiplier);
+    }
 }
