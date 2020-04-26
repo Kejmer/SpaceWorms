@@ -21,7 +21,7 @@ int main()
     world.newTeam(sf::Color::Blue);
     world.newShip({100,100}, 1);
     world.newShip({700,500}, 2);
-    world.addHoleEntity(new Asteroid({300,400}, 700, 30));
+    world.addHoleEntity(new Asteroid({300,400}, 300, 10));
 
     world.run();
     return 0;

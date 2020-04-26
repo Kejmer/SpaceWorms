@@ -5,7 +5,7 @@
 
 class Asteroid : public GHole {
 public:
-  Asteroid(sf::Vector2f position, float mass, float radius);
+  Asteroid(sf::Vector2f position, float radius, float mass);
   sf::Vector2f acceleration(sf::Vector2f where);
   void draw(sf::RenderWindow& window);
 protected:

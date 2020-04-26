@@ -9,6 +9,7 @@ GHole::GHole(sf::Vector2f position, float mass, float radius)
 , mass(mass) {
   hole.setPosition(position);
   hole.setRadius(radius);
+  gravity = true;
 
   centerOrigin(hole);
 

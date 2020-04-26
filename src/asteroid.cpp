@@ -9,7 +9,7 @@ Asteroid::Asteroid(sf::Vector2f position, float mass, float radius)
 : GHole(position, mass, radius) {
   texture.loadFromFile("assets/asteroid.png"); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
   hole.setTexture(&texture, true);
-  hole.setFillColor(sf::Color::Grey);
+  gravity = false;
 }
 
 
