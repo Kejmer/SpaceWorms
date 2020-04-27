@@ -7,19 +7,19 @@ Team::Team(sf::Color color)
 , team_color(color) {
   id = counter++;
   if (color == sf::Color::Red) {
-    ship_file = "assets/spaceship_red.png";
+    ship_file = "assets/spaceship_red1.png";
   }
   else if (color == sf::Color::Blue) {
-    ship_file = "assets/spaceship_blue.png";
+    ship_file = "assets/spaceship_blue1.png";
   }
   else if (color == sf::Color::Yellow) {
-    ship_file = "assets/spaceship_yellow.png";
+    ship_file = "assets/spaceship_yellow1.png";
   }
   else if (color == sf::Color::Green) {
-    ship_file = "assets/spaceship_green.png";
+    ship_file = "assets/spaceship_green1.png";
   }
   else {
-    ship_file = "assets/spaceship_grey.png";
+    ship_file = "assets/spaceship_grey1.png";
   }
 }
 
