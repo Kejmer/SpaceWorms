@@ -48,6 +48,7 @@ private:
     float move_dir;
     sf::Time last_shot;
     sf::Texture texture;
+    std::string file;
 
 
     Bar *healthbar;
