@@ -30,6 +30,8 @@ public:
     void updateStatistics(Statistics stat, float new_value);
     float getStatistics(Statistics stat);
     int getID();
+
+    void setTeam(int team_id);
 private:
     void realtimeInput();
     sf::Vector2f getDirection();
@@ -46,6 +48,7 @@ private:
     float move_dir;
     sf::Time last_shot;
     sf::Texture texture;
+    std::string file;
 
 
     Bar *healthbar;

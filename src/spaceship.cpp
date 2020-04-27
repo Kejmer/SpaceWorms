@@ -6,7 +6,7 @@
 
 int Spaceship::counter = 1;
 
-Spaceship::Spaceship(sf::Vector2f position, std::string file)
+Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
 : Entity(position, Entity::Spaceship)
 , statistics_holder()
 , ship(30, 3)
@@ -18,12 +18,13 @@ Spaceship::Spaceship(sf::Vector2f position, std::string file)
     centerOrigin(ship);
     ship.setPosition(position);
 
-    texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+    texture.loadFromFile(new_file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
     ship.setTexture(&texture, true);
+    file = new_file;
     id = counter++;
 
     initStatistics();
-    
+
     healthbar = new Bar{this, sf::Color::Green, sf::Color::Red, {50, 5}, {0, 40}, getStatistics(MaxHealth), getStatistics(Healthpoints)};
     addAttachable(healthbar);
 
@@ -41,6 +42,23 @@ void Spaceship::update(sf::Time dt) {
 
     last_shot += dt;
     healthbar->setValue(getStatistics(Healthpoints));
+
+    if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) ) { // mniej niż 25%
+        file[file.size() - 5] = '4';
+        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+        ship.setTexture(&texture, true);
+    }
+    else if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 2) { // mniej niż 50%
+        file[file.size() - 5] = '3';
+        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+        ship.setTexture(&texture, true);
+    }
+    else if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 3) { // mniej niż 75%
+        file[file.size() - 5] = '2';
+        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+        ship.setTexture(&texture, true);
+    }
+
 
     if (id == world->getController()) {
         realtimeInput();
@@ -71,7 +89,7 @@ void Spaceship::shoot() {
     updateStatistics(AmmoCount, getStatistics(AmmoCount) - 1);
     ammo_text->updateString("Ammo: " + std::to_string((int)getStatistics(AmmoCount)));
     last_shot = sf::Time::Zero;
-    
+
     world->clearRequest();
     world->nextTurn();
 }
@@ -152,4 +170,8 @@ void Spaceship::initStatistics() {
 
 int Spaceship::getID() {
     return id;
+}
+
+void Spaceship::setTeam(int team_id) {
+    this->team_id = team_id;
 }

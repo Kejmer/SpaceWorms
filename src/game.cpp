@@ -21,7 +21,19 @@ int main()
     world.newTeam(sf::Color::Blue);
     world.newShip({100,100}, 1);
     world.newShip({700,500}, 2);
-    world.addHoleEntity(new Asteroid({300,400}, 300, 10));
+
+    world.addHoleEntity(new Asteroid({300,400}, 700, 10));
+    // pas asteroid przy pierwszym statku
+    world.addHoleEntity(new Asteroid({220,150}, 700, 15));
+    world.addHoleEntity(new Asteroid({280,160}, 700, 10));
+    world.addHoleEntity(new Asteroid({320,140}, 700, 10));
+    world.addHoleEntity(new Asteroid({360,110}, 700, 20));
+    world.addHoleEntity(new Asteroid({380,170}, 700, 15));
+    world.addHoleEntity(new Asteroid({310,180}, 700, 15));
+    // asteroidy za drugim statkiem
+    world.addHoleEntity(new Asteroid({800,550}, 700, 15));
+    world.addHoleEntity(new Asteroid({850,600}, 700, 10));
+    world.addHoleEntity(new Asteroid({750,630}, 700, 20));
 
     world.run();
     return 0;
