@@ -16,7 +16,8 @@ public:
         ShotsPerSecond,
         MoveSpeed,
         AmmoCount,
-        BulletSpeed
+        BulletSpeed,
+        ShotChargeTime
     };
 
     Spaceship(sf::Vector2f position, std::string file="assets/spaceship_grey.png");
@@ -50,8 +51,11 @@ private:
     sf::Texture texture;
     std::string file;
 
+    bool isCharging;
+    sf::Time charge_time;
 
     Bar *healthbar;
+    Bar *shot_charge;
     TextBox *ammo_text;
 };
 
