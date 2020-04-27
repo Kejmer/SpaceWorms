@@ -165,7 +165,7 @@ void Spaceship::initStatistics() {
     statistics_holder[ShotsPerSecond] = 3;
     statistics_holder[MoveSpeed] = 90;
     statistics_holder[AmmoCount] = 100;
-    statistics_holder[BulletSpeed] = 100;
+    statistics_holder[BulletSpeed] = 200;
     statistics_holder[ShotChargeTime] = 1;
 }
 
