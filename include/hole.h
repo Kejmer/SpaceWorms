@@ -5,10 +5,10 @@
 
 class GHole : public Entity {
 public:
-  GHole(sf::Vector2f position, float mass, float radius);
+  GHole(sf::Vector2f position, float mass, float radius, bool gravity);
   virtual ~GHole() = default;
   sf::Vector2f acceleration(sf::Vector2f where);
-  bool gravity;
+  const bool gravity;
   void input(sf::Event event);
   void update(sf::Time dt);
   void draw(sf::RenderWindow& window);

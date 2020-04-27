@@ -6,7 +6,7 @@
 #include "../include/asteroid.h"
 
 Asteroid::Asteroid(sf::Vector2f position, float mass, float radius)
-: GHole(position, mass, radius) {
+: GHole(position, mass, radius, false) {
   texture.loadFromFile("assets/asteroid.png"); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
   hole.setTexture(&texture, true);
   gravity = false;
