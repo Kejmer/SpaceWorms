@@ -28,12 +28,12 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
 
     initStatistics();
 
-    healthbar = new Bar{this, sf::Color::Green, sf::Color::Red, {50, 5}, {0, 40}, getStatistics(MaxHealth), getStatistics(Healthpoints)};
+    healthbar = std::shared_ptr<Bar>(new Bar{this, sf::Color::Green, sf::Color::Red, {50, 5}, {0, 40}, getStatistics(MaxHealth), getStatistics(Healthpoints)});
     addAttachable(healthbar);
 
-    shot_charge = new Bar{this, sf::Color{255, 157, 0}, sf::Color::White, {50, 5}, {0, -40}, getStatistics(ShotChargeTime), 0};
+    shot_charge = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::White, {50, 5}, {0, -40}, getStatistics(ShotChargeTime), 0});
 
-    ammo_text = new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14};
+    ammo_text = std::shared_ptr<TextBox>(new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14});
     addAttachable(ammo_text);
 
     createHitbox();
