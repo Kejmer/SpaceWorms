@@ -17,6 +17,6 @@ int main()
     ScreenManager manager(window);
 
     manager.run();
-
+    
     return 0;
 }
