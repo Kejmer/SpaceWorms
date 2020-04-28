@@ -66,5 +66,5 @@ WhiteHole::WhiteHole(sf::Vector2f position, float mass, float radius)
 }
 
 short WhiteHole::direction() {
-  return -11;
+  return -1;
 }
