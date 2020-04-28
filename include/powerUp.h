@@ -13,7 +13,7 @@ public:
     };
 
     PowerUp(sf::Color color, sf::Vector2f pos);
-    virtual ~PowerUp = default;
+    virtual ~PowerUp() = default;
     
     void input(sf::Event event);
     void update(sf::Time dt);
