@@ -13,6 +13,7 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
 , rotation(0)
 , move_dir(0)
 , last_shot(sf::Time::Zero)
+, current_texture(0)
 , isCharging(false)
 , charge_time(sf::Time::Zero)
 , healthbar()
@@ -58,18 +59,23 @@ void Spaceship::update(sf::Time dt) {
     last_shot += dt;
     healthbar->setValue(getStatistics(Healthpoints));
 
-    if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) ) { // mniej niż 25%
-        file[file.size() - 5] = '4';
+    if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 3 && current_texture == 0) { // mniej niż 75%
+        current_texture = 1;
+        file[file.size() - 5] = '2';
         texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
         ship.setTexture(&texture, true);
     }
-    else if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 2) { // mniej niż 50%
+
+    if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 2 && current_texture == 1) { // mniej niż 50%
+        current_texture = 2;
         file[file.size() - 5] = '3';
         texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
         ship.setTexture(&texture, true);
     }
-    else if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 3) { // mniej niż 75%
-        file[file.size() - 5] = '2';
+
+    if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) && current_texture == 2) { // mniej niż 25%
+        current_texture = 3;
+        file[file.size() - 5] = '4';
         texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
         ship.setTexture(&texture, true);
     }
