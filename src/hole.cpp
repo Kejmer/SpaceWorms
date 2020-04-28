@@ -4,7 +4,7 @@
 #include "../include/utility.h"
 #include "../include/boundingHitbox.h"
 
-GHole::GHole(sf::Vector2f position, float mass, float radius, bool gravity)
+GHole::GHole(sf::Vector2f position, float mass, float radius, int gravity)
 : Entity(position, Entity::Hole)
 , gravity(gravity)
 , mass(mass) {
@@ -46,7 +46,7 @@ void GHole::setWorld(World *world) {
 }
 
 BlackHole::BlackHole(sf::Vector2f position, float mass, float radius)
-: GHole(position, mass, radius, true) {
+: GHole(position, mass, radius, 1) {
   //kolor chwilowo aby było widoczne
   texture.loadFromFile("assets/blackhole2.png"); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
   hole.setTexture(&texture, true);
@@ -54,5 +54,17 @@ BlackHole::BlackHole(sf::Vector2f position, float mass, float radius)
 }
 
 short BlackHole::direction() {
+  return 1;
+}
+
+WhiteHole::WhiteHole(sf::Vector2f position, float mass, float radius)
+: GHole(position, mass, radius, -1) {
+  //kolor chwilowo aby było widoczne
+  texture.loadFromFile("assets/whitehole.png"); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+  hole.setTexture(&texture, true);
+  hole.setFillColor(sf::Color::White);
+}
+
+short WhiteHole::direction() {
   return 1;
 }
