@@ -21,9 +21,11 @@ public:
 
     virtual void applyEffect(class Spaceship *ship) = 0;
 
+    sf::RectangleShape shape;
+    sf::Texture texture;
+
 private:
     sf::Color color;
-    sf::RectangleShape shape;
     sf::Vector2f size = {25, 25};
 };
 
