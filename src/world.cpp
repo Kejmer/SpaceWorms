@@ -6,7 +6,6 @@
 #include "../include/ammoPowerUp.h"
 #include "../include/powerUp.h"
 
-#include <iostream>
 #include <SFML/Config.hpp>
 
 const sf::Time World::frame_time = sf::seconds(1./60.);
@@ -55,7 +54,6 @@ void World::update(sf::Time dt) {
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
-    std::cout << time_left.asSeconds() << '\n';
 }
 
 void World::draw() {
