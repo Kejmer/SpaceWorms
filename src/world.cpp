@@ -123,9 +123,12 @@ void World::removeEntity(Entity* entity) {
 sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     sf::Vector2f res(0, 0);
     for (std::shared_ptr<GHole> h : holeEntities) {
-        if (h->gravity == true) {
+        if(h->gravity == 1) {
             res += h->acceleration(pos);
-        }
+        }   
+        if(h->gravity == -1) {
+            res -= h->acceleration(pos);
+        }  
     }
     return res * gravity_multiplier;
 }
