@@ -59,8 +59,15 @@ void World::update(sf::Time dt) {
 }
 
 void World::draw() {
-    //TODO Anita tło
+    sf::Texture texture;
+    texture.loadFromFile("assets/background.png");
+
+    // window.clear(sf::Color::Black);
+    // window.setTexture(texture);
+    sf::Sprite sprite(texture);
     window.clear(sf::Color::Black);
+    window.draw(sprite);
+
     for (auto& entity : entities)
         entity->draw(window);
 

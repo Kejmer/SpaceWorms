@@ -47,7 +47,8 @@ void GHole::setWorld(World *world) {
 BlackHole::BlackHole(sf::Vector2f position, float mass, float radius)
 : GHole(position, mass, radius) {
   //kolor chwilowo aby było widoczne
-  //TODO Anita texturki
+  texture.loadFromFile("assets/blackhole2.png"); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+  hole.setTexture(&texture, true);
   hole.setFillColor(sf::Color::White);
 }
 

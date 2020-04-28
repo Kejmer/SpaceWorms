@@ -4,6 +4,7 @@
 #include "../include/hole.h"
 #include "../include/spaceship.h"
 #include "../include/team.h"
+#include "../include/asteroid.h"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -23,6 +24,7 @@ int main()
     world.newPowerUp({200, 200}, PowerUp::Health);
     world.newPowerUp({600, 600}, PowerUp::Ammo);
     world.newPowerUp({400, 400}, PowerUp::Time);
+    world.addHoleEntity(new Asteroid({300,400}, 700, 30));
 
     world.run();
     return 0;
