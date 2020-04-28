@@ -74,8 +74,8 @@ private:
     int current_team;
     int current_ship;
 
-    Bar *game_speed_bar;
-    TextBox *game_speed_text;
+    std::unique_ptr<Bar> game_speed_bar;
+    std::unique_ptr<TextBox> game_speed_text;
 };
 
 #endif

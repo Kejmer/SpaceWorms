@@ -20,8 +20,8 @@ World::World(sf::RenderWindow& window)
 , current_team(0)
 , current_ship(0) {
     time_left = turn_time;
-    game_speed_bar = new Bar{nullptr, sf::Color::White, sf::Color::Yellow, {200, 20}, {100, 10}, max_time_mult, time_multiplier};
-    game_speed_text = new TextBox{nullptr, "Game speed", {40, 10}, 14};
+    game_speed_bar = std::unique_ptr<Bar>(new Bar{nullptr, sf::Color::White, sf::Color::Yellow, {200, 20}, {100, 10}, max_time_mult, time_multiplier});
+    game_speed_text = std::unique_ptr<TextBox>(new TextBox{nullptr, "Game speed", {40, 10}, 14});
     game_speed_text->setColor(sf::Color::Black);
 }
 
@@ -123,7 +123,9 @@ void World::removeEntity(Entity* entity) {
 sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     sf::Vector2f res(0, 0);
     for (std::shared_ptr<GHole> h : holeEntities) {
-        res += h->acceleration(pos);
+        if(h->gravity == true) {
+            res += h->acceleration(pos);
+        }   
     }
     return res * gravity_multiplier;
 }

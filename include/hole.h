@@ -5,10 +5,10 @@
 
 class GHole : public Entity {
 public:
-  GHole(sf::Vector2f position, float mass, float radius);
+  GHole(sf::Vector2f position, float mass, float radius, bool gravity);
   virtual ~GHole() = default;
   sf::Vector2f acceleration(sf::Vector2f where);
-
+  const bool gravity;
   void input(sf::Event event);
   void update(sf::Time dt);
   void draw(sf::RenderWindow& window);
@@ -25,6 +25,7 @@ protected:
 class BlackHole : public GHole {
 public:
   BlackHole(sf::Vector2f position, float mass, float radius);
+  bool gravity;
 protected:
   typedef GHole super;
   short direction();

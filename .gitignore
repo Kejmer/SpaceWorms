@@ -10,3 +10,6 @@
 
 *.o
 .vscode
+
+#Macowe rzeczy
+.DS_Store

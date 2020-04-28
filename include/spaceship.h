@@ -16,7 +16,8 @@ public:
         ShotsPerSecond,
         MoveSpeed,
         AmmoCount,
-        BulletSpeed
+        BulletSpeed,
+        ShotChargeTime
     };
 
     Spaceship(sf::Vector2f position, std::string file="assets/spaceship_grey.png");
@@ -30,6 +31,8 @@ public:
     void updateStatistics(Statistics stat, float new_value);
     float getStatistics(Statistics stat);
     int getID();
+
+    void setTeam(int team_id);
 private:
     void realtimeInput();
     sf::Vector2f getDirection();
@@ -46,10 +49,14 @@ private:
     float move_dir;
     sf::Time last_shot;
     sf::Texture texture;
+    std::string file;
 
+    bool isCharging;
+    sf::Time charge_time;
 
-    Bar *healthbar;
-    TextBox *ammo_text;
+    std::shared_ptr<Bar> healthbar;
+    std::shared_ptr<Bar> shot_charge;
+    std::shared_ptr<TextBox> ammo_text;
 };
 
 #endif
