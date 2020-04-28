@@ -50,6 +50,7 @@ private:
     sf::Time last_shot;
     sf::Texture texture;
     std::string file;
+    int current_texture;
 
     bool isCharging;
     sf::Time charge_time;
