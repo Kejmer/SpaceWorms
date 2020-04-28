@@ -11,7 +11,7 @@ public:
 
     void applyEffect(class Spaceship *ship);
 private:
-	float strength_in_s = 10;
+	float strength_in_s = 1;
 };
 
 #endif // TIMEPOWERUP_H

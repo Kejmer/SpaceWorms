@@ -60,8 +60,9 @@ void collide(Entity* first, Entity* second) {
     }
 
     if (checkRelation(&first, &second, Entity::Spaceship, Entity::PowerUp)) {
-        PowerUp *powUp = (PowerUp *) first;
-        Spaceship *ship = (Spaceship *) second;
+        Spaceship *ship = (Spaceship *) first;
+        PowerUp *powUp = (PowerUp *) second;
         powUp->applyEffect(ship);
+        second->despawn();
     }
 }

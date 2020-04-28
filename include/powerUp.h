@@ -8,12 +8,11 @@ class PowerUp : public Entity {
 public:
     enum PowerUpType {
         Health,
-        Fuel,
+        Time,
         Ammo
     };
 
     PowerUp(sf::Color color, sf::Vector2f pos);
-    PowerUpType getType();
     
     void input(sf::Event event);
     void update(sf::Time dt);
@@ -25,9 +24,6 @@ private:
     sf::Color color;
     sf::RectangleShape shape;
     sf::Vector2f size = {25, 25};
-
-    PowerUpType type;
-
 };
 
 #endif // POWERUP_H

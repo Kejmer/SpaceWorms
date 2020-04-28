@@ -11,7 +11,7 @@ public:
 
     void applyEffect(class Spaceship *ship);
 private:
-	int strength = 10;
+	float strength = 10.f;
 };
 
 #endif // AMMOPOWERUP_H
