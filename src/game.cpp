@@ -22,6 +22,6 @@ int main()
     std::srand(seed.tv_sec * 1000 + seed.tv_usec % 1000);
 
     manager.run();
-    
+ 
     return 0;
 }
