@@ -5,6 +5,7 @@
 #include "hole.h"
 #include "team.h"
 #include "delayedContainer.h"
+#include "powerUp.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -35,12 +36,16 @@ public:
     void clearRequest();
     /// Dodaje statek do drużyny o id teamID
     void newShip(sf::Vector2f postion, int teamID);
+    /// Dodaje nowy power up danego typu
+    void newPowerUp(sf::Vector2f position, PowerUp::PowerUpType type);
     /// Dodanie do świata nowej drużyny reprezentowanej kolorem color
     int newTeam(sf::Color color);
     /// Który statek aktualnie jest kontrolowany
     int getController();
     /// Zablokuj możliwość kontroli statkiem aż upłynie czas do następnej tury
     void nextTurn();
+    /// Przedłuż obecnie trwającą turę
+    void extendTurn(sf::Time t);
 private:
     void checkCollisions();
     /// Ustawienie następnej drużyny

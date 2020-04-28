@@ -1,6 +1,7 @@
 #include "../include/collisions.h"
 #include "../include/world.h"
 #include "../include/spaceship.h"
+#include "../include/powerUp.h"
 
 inline void swap(Entity **first, Entity **second) {
     auto tmp = *first;
@@ -55,6 +56,13 @@ void collide(Entity* first, Entity* second) {
         else
             ship->updateStatistics(Spaceship::Healthpoints, health);
 
+        second->despawn();
+    }
+
+    if (checkRelation(&first, &second, Entity::Spaceship, Entity::PowerUp)) {
+        Spaceship *ship = (Spaceship *) first;
+        PowerUp *powUp = (PowerUp *) second;
+        powUp->applyEffect(ship);
         second->despawn();
     }
 }

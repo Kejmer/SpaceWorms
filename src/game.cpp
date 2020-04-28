@@ -21,8 +21,11 @@ int main()
     world.newTeam(sf::Color::Blue);
     world.newShip({100,100}, 1);
     world.newShip({700,500}, 2);
+    world.newPowerUp({200, 200}, PowerUp::Health);
+    world.newPowerUp({600, 600}, PowerUp::Ammo);
+    world.newPowerUp({400, 400}, PowerUp::Time);
+    world.addHoleEntity(new Asteroid({300,400}, 700, 30));
 
-    world.addHoleEntity(new Asteroid({300,400}, 700, 10));
     // pas asteroid przy pierwszym statku
     world.addHoleEntity(new Asteroid({220,150}, 700, 15));
     world.addHoleEntity(new Asteroid({280,160}, 700, 10));

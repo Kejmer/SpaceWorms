@@ -125,6 +125,9 @@ void Spaceship::move(sf::Vector2f vector) {
 }
 
 void Spaceship::updateStatistics(Spaceship::Statistics stat, float new_value) {
+    if (stat == Spaceship::AmmoCount) {
+        ammo_text->updateString("Ammo: " + std::to_string((int) new_value));
+    }
     statistics_holder[stat] = new_value;
 }
 

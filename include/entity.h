@@ -16,6 +16,7 @@ public:
         Bullet,
         Hole,
         Spaceship,
+        PowerUp,
         None
     };
 
