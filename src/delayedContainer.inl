@@ -16,6 +16,16 @@ void DelayedContainer<T>::remove(T *object) {
 }
 
 template <typename T>
+void DelayedContainer<T>::pop_back() {
+    pending_changes.push_back({PopBack, nullptr});
+}
+
+template <typename T>
+void DelayedContainer<T>::clear() {
+    pending_changes.push_back({Clear, nullptr});
+}
+
+template <typename T>
 void DelayedContainer<T>::applyPendingChanges() {
     for (auto& change : pending_changes)
         switch (change.action) {
@@ -26,10 +36,17 @@ void DelayedContainer<T>::applyPendingChanges() {
             case Remove:
                 for (auto it = this->begin(); it != this->end(); it++)
                     if ((*it).get() == change.object) {
-                        (*it).get()->setWorld(nullptr);
                         this->erase(it);
                         break;
                     }
+                break;
+            
+            case PopBack:
+                this->std::vector<std::shared_ptr<T>>::pop_back();
+                break;
+
+            case Clear:
+                this->std::vector<std::shared_ptr<T>>::clear();
         }
 
     pending_changes.clear();
