@@ -5,39 +5,36 @@
 #include "../include/timePowerUp.h"
 #include "../include/ammoPowerUp.h"
 #include "../include/powerUp.h"
+#include "../include/screenHolder.h"
 
 #include <SFML/Config.hpp>
 
-const sf::Time World::frame_time = sf::seconds(1./60.);
 const sf::Time World::turn_time = sf::seconds(2.);
 
-World::World(sf::RenderWindow& window)
-: window(window)
-, entities()
+World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
+: Screen(window, screen_holder)
 , requesterId(0)
 , is_time_flowing(false)
+, teams_remaining(0)
 , current_team(0)
 , current_ship(0) {
     time_left = turn_time;
     game_speed_bar = std::unique_ptr<Bar>(new Bar{nullptr, sf::Color::White, sf::Color::Yellow, {200, 20}, {100, 10}, max_time_mult, time_multiplier});
     game_speed_text = std::unique_ptr<TextBox>(new TextBox{nullptr, "Game speed", {40, 10}, 14});
     game_speed_text->setColor(sf::Color::Black);
+    background_texture.loadFromFile("assets/background.png");
 }
 
-void World::input() {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-        for (auto& entity : entities)
-            entity->input(event);
+bool World::input(sf::Event event) {
+    for (auto& entity : entities)
+        entity->input(event);
 
-        if (event.type == sf::Event::Closed)
-            window.close();
-    }
+    return false;
+}
 
+bool World::update(sf::Time dt) {
     timeMultiplierChanges();
-}
-
-void World::update(sf::Time dt) {
+    dt *= time_multiplier;
     for (auto& entity : entities)
         entity->update(dt);
 
@@ -54,16 +51,17 @@ void World::update(sf::Time dt) {
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
+
+    if (teams_remaining <= 1)
+        screen_holder.clear();
+
+    return false;
 }
 
-void World::draw() {
-    sf::Texture texture;
-    texture.loadFromFile("assets/background.png");
-
+bool World::draw() {
     // window.clear(sf::Color::Black);
     // window.setTexture(texture);
-    sf::Sprite sprite(texture);
-    window.clear(sf::Color::Black);
+    sf::Sprite sprite(background_texture);
     window.draw(sprite);
 
     for (auto& entity : entities)
@@ -71,36 +69,21 @@ void World::draw() {
 
     game_speed_bar->draw(window);
     game_speed_text->draw(window);
-    window.display();
-
+    return false;
 }
 
 void World::run() {
-    sf::Clock clock;
-    sf::Time last_update = sf::Time::Zero;
     nextTeam();
-
-    while (window.isOpen()) {
-        sf::Time elapsed = clock.restart();
-        last_update += elapsed;
-        while (last_update > frame_time) {
-            last_update -= frame_time;
-
-            input();
-            update(frame_time * time_multiplier);
-        }
-        draw();
-    }
 }
 
 std::shared_ptr<Entity> World::addEntity(Entity* entity) {
     entity->setWorld(this);
-    return entities.add(entity);
+    return Screen::addEntity(entity);
 }
 
 void World::addEntity(std::shared_ptr<Entity> entity) {
     entity->setWorld(this);
-    entities.add(entity);
+    Screen::addEntity(entity);
 }
 
 void World::addHoleEntity(GHole* hole) {
@@ -121,7 +104,7 @@ void World::removeEntity(Entity* entity) {
 sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     sf::Vector2f res(0, 0);
     for (std::shared_ptr<GHole> h : holeEntities) {
-        if(h->gravity == true) {
+        if (h->gravity == true) {
             res += h->acceleration(pos);
         }   
     }
@@ -160,6 +143,7 @@ void World::clearRequest() {
 }
 
 int World::newTeam(sf::Color color) {
+    teams_remaining++;
     auto ptr = std::make_shared<Team>(color);
     ptr->setWorld(this);
     teams.push_back(ptr);
@@ -225,4 +209,10 @@ void World::timeMultiplierChanges() {
 
 void World::extendTurn(sf::Time t) {
     time_left += t;
+}
+
+void World::shipDestroyed(int team_id) {
+    // Funkcja placeholder - do usunięcia / zmiany przy 
+    // implementacji dodawania większej ilości statków do drużyn
+    teams_remaining--;
 }

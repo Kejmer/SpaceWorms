@@ -6,17 +6,18 @@
 #include "team.h"
 #include "delayedContainer.h"
 #include "powerUp.h"
+#include "screen.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
 
-class World {
+class World : public Screen {
 public:
-    World(sf::RenderWindow& window);
-    void input();
-    void update(sf::Time dt);
-    void draw();
+    World(sf::RenderWindow& window, ScreenHolder& screen_holder);
+    bool input(sf::Event event);
+    bool update(sf::Time dt);
+    bool draw();
     void run();
 
     void addHoleEntity(GHole *hole);
@@ -46,6 +47,8 @@ public:
     void nextTurn();
     /// Przedłuż obecnie trwającą turę
     void extendTurn(sf::Time t);
+
+    void shipDestroyed(int team_id);
 private:
     void checkCollisions();
     /// Ustawienie następnej drużyny
@@ -55,11 +58,7 @@ private:
 
     void timeMultiplierChanges();
 
-    sf::RenderWindow& window;
     DelayedContainer<GHole> holeEntities;
-    DelayedContainer<Entity> entities;
-
-    static const sf::Time frame_time;
 
     bool requesterId;
     bool is_time_flowing;
@@ -71,11 +70,14 @@ private:
     sf::Time time_left;
 
     std::vector<std::shared_ptr<Team>> teams;
+    int teams_remaining;
     int current_team;
     int current_ship;
 
     std::unique_ptr<Bar> game_speed_bar;
     std::unique_ptr<TextBox> game_speed_text;
+
+    sf::Texture background_texture;
 };
 
 #endif

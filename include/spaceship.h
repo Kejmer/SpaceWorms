@@ -33,6 +33,7 @@ public:
     int getID();
 
     void setTeam(int team_id);
+    int getTeam();
 private:
     void realtimeInput();
     sf::Vector2f getDirection();

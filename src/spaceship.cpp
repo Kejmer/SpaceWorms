@@ -97,6 +97,10 @@ void Spaceship::update(sf::Time dt) {
         
         shot_charge->setValue(std::min(getStatistics(ShotChargeTime), charge_time.asSeconds()));
     }
+    else {
+        isCharging = false;
+        charge_time = sf::Time::Zero;
+    }
 }
 
 void Spaceship::draw(sf::RenderWindow& window) {
@@ -204,4 +208,8 @@ int Spaceship::getID() {
 
 void Spaceship::setTeam(int team_id) {
     this->team_id = team_id;
+}
+
+int Spaceship::getTeam() {
+    return team_id;
 }

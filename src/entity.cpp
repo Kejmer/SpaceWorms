@@ -25,6 +25,14 @@ World* Entity::getWorld() {
     return world;
 }
 
+void Entity::setScreen(Screen *screen) {
+    this->screen = screen;
+}
+
+Screen* Entity::getScreen() {
+    return screen;
+}
+
 void Entity::despawn() {
     world->removeEntity(this);
 }

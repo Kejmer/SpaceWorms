@@ -10,11 +10,15 @@ public:
     std::shared_ptr<T> add(T* object);
     void add(std::shared_ptr<T> object);
     void remove(T *object);
+    void pop_back();
+    void clear();
     void applyPendingChanges();
 private:
     enum Action {
         Add,
-        Remove
+        Remove,
+        PopBack,
+        Clear
     };
 
     struct Change {

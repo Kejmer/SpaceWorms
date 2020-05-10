@@ -17,3 +17,7 @@ Jeżeli chcecie zdebugować utworzony hitbox, to możecie go narysować za pomoc
 
 Każde entity ma przypisaną pewną kategorię wpływającą na jej zachowanie w momencie kolizji z innymi entity (domyślnie None, co oznacza że nie będzie wchodził z niczym w kolizje). Jeżeli chcecie dodać nową kategorię, zmodyfikujcie Entity::CollisionCategory.
 Obsługa kolizji znajduje się w pliku collisions.cpp w funkcji collide.
+
+# Ekrany
+
+Ekrany tworzy się poprzez napisanie klasy dziedziczącej po Screen. Następnie dodawane są one do ScreenHoldera przechowywanego w ScreenManagerze. Ekrany są dodawane na / zdejmowane z końca ScreenHoldera. ScreenManager przegląda dodane ekrany od najpóźniej dodanego w trzech turach (input, update, draw). Dodatkowo każda z tych funkcji zwraca boola - zwrócenie false jest równoważne z przerwaniem przeglądania ekranów umieszczonych przed tym, który zwrócił tą wartość. Np. menu pauzy może zostać dodane po ekranie obsługującym grę i zawsze zwracać false dzięki czemu ekran gry nie będzie aktualizowany dopóki to menu pauzy istnieje. Z kolei np. pole wyboru broni - też dodane po ekranie gry - może chcieć zwracać zawsze true, dzięki czemu gracz będzie mógł dalej sterować swoim statkiem. Program kończy działanie gdy ScreenHolder jest pusty.

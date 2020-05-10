@@ -51,8 +51,10 @@ void collide(Entity* first, Entity* second) {
         float health = ship->getStatistics(Spaceship::Healthpoints);
         health -= 10;
 
-        if (health <= 0)
+        if (health <= 0) {
             ship->despawn();
+            ship->getWorld()->shipDestroyed(ship->getTeam());
+        }
         else
             ship->updateStatistics(Spaceship::Healthpoints, health);
 

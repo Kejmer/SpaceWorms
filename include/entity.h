@@ -9,6 +9,7 @@
 
 // Forward declaration
 class World;
+class Screen;
 
 class Entity {
 public:
@@ -31,6 +32,8 @@ public:
 
     virtual void setWorld(World *world);
     World* getWorld();
+    virtual void setScreen(Screen *screen);
+    Screen* getScreen();
     void despawn();
 
     CollisionCategory getCategory() const;
@@ -52,6 +55,7 @@ protected:
     float distanceTo(sf::Vector2f where);
     sf::Vector2f position;
     World* world;
+    Screen* screen;
 
     std::unique_ptr<Hitbox> hitbox;
     std::vector<std::shared_ptr<Attachable>> attachables_to_draw;
