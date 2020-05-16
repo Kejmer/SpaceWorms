@@ -6,6 +6,7 @@
 #include "../include/ammoPowerUp.h"
 #include "../include/powerUp.h"
 #include "../include/screenHolder.h"
+#include "../include/pause.h"
 
 #include <SFML/Config.hpp>
 
@@ -34,6 +35,8 @@ bool World::input(sf::Event event) {
 
 bool World::update(sf::Time dt) {
     timeMultiplierChanges();
+    pauseMenu();
+
     dt *= time_multiplier;
     for (auto& entity : entities)
         entity->update(dt);
@@ -106,7 +109,7 @@ sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     for (std::shared_ptr<GHole> h : holeEntities) {
         if (h->gravity == true) {
             res += h->acceleration(pos);
-        }   
+        }
     }
     return res * gravity_multiplier;
 }
@@ -212,7 +215,13 @@ void World::extendTurn(sf::Time t) {
 }
 
 void World::shipDestroyed(int team_id) {
-    // Funkcja placeholder - do usunięcia / zmiany przy 
+    // Funkcja placeholder - do usunięcia / zmiany przy
     // implementacji dodawania większej ilości statków do drużyn
     teams_remaining--;
+}
+
+void World::pauseMenu() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+        screen_holder.push_back(new Pause(window, screen_holder));
+    }
 }
