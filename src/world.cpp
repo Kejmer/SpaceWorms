@@ -35,7 +35,6 @@ bool World::input(sf::Event event) {
 
 bool World::update(sf::Time dt) {
     timeMultiplierChanges();
-    pauseMenu();
 
     dt *= time_multiplier;
     for (auto& entity : entities)
@@ -55,6 +54,7 @@ bool World::update(sf::Time dt) {
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
 
+    pauseMenu();
     if (teams_remaining <= 1)
         screen_holder.clear();
 
