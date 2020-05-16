@@ -43,3 +43,21 @@ void TextBox::updateString(const sf::String &string) {
 void TextBox::setColor(sf::Color color) {
     text->setFillColor(color);
 }
+
+void TextBox::setFont(sf::Font font) {
+    this->font = font;
+    text->setFont(font);
+}
+
+void TextBox::setFont(std::string font_path) {
+    font.loadFromFile(font_path);
+    text->setFont(font);
+}
+
+void TextBox::setSize(unsigned int size) {
+    text->setCharacterSize(size);
+}
+
+void TextBox::setPosition(sf::Vector2f position) {
+    text->setPosition(position);
+}
