@@ -55,6 +55,8 @@ private:
     int nextTeam();
     /// Przekaż kontrolę następnemu statkowi
     void controlNext();
+    /// Sprawdź input użytkownika dotyczący kontroli statków
+    void userTeamControl();
 
     void timeMultiplierChanges();
 

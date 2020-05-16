@@ -39,6 +39,7 @@ bool World::update(sf::Time dt) {
         entity->update(dt);
 
     checkCollisions();
+    userTeamControl();
 
     if (is_time_flowing)
         time_left -= dt;
@@ -106,7 +107,7 @@ sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     for (std::shared_ptr<GHole> h : holeEntities) {
         if (h->gravity == true) {
             res += h->acceleration(pos);
-        }   
+        }
     }
     return res * gravity_multiplier;
 }
@@ -126,10 +127,10 @@ void World::checkCollisions() {
                 collide(entities[i].get(), entities[j].get());
 }
 
-void World::moveRequest(int spaceshipId) {
+void World::moveRequest(int spaceship_id) {
     if (!is_time_flowing) {
         is_time_flowing = true;
-        requesterId = spaceshipId;
+        requesterId = spaceship_id;
     }
 }
 
@@ -173,6 +174,11 @@ void World::newPowerUp(sf::Vector2f position, PowerUp::PowerUpType type) {
     }
 }
 
+void World::userTeamControl() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+        controlNext();
+}
+
 void World::controlNext() {
     std::shared_ptr<Team> team = teams[current_team];
     current_ship = team->nextShip();
@@ -212,7 +218,7 @@ void World::extendTurn(sf::Time t) {
 }
 
 void World::shipDestroyed(int team_id) {
-    // Funkcja placeholder - do usunięcia / zmiany przy 
+    // Funkcja placeholder - do usunięcia / zmiany przy
     // implementacji dodawania większej ilości statków do drużyn
     teams_remaining--;
 }
