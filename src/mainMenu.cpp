@@ -35,13 +35,14 @@ void MainMenu::initButtons() {
     start->setText(L"Rozpocznij grę");
     start->assignAction([this](){
         screen_holder.clear();
-        
+
         World *world = new World(window, screen_holder);
         world->addHoleEntity(new BlackHole({500, 500}, 700, 30));
         world->addHoleEntity(new BlackHole({700, 300}, 500, 20));
         world->newTeam(sf::Color::Red);
         world->newTeam(sf::Color::Blue);
         world->newShip({100,100}, 1);
+        world->newShip({100,300}, 1);
         world->newShip({700,500}, 2);
         world->newPowerUp({200, 200}, PowerUp::Health);
         world->newPowerUp({600, 600}, PowerUp::Ammo);

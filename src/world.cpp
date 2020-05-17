@@ -32,7 +32,12 @@ World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
 bool World::input(sf::Event event) {
     for (auto& entity : entities)
         entity->input(event);
-    userTeamControl(event);
+
+    if (is_time_flowing) {
+
+    } else {
+        userTeamControl(event);
+    }
 
     return false;
 }
@@ -56,7 +61,7 @@ bool World::update(sf::Time dt) {
                 screen_holder.push_back(new EndingScreen(window, screen_holder, nullptr));
             else
                 screen_holder.push_back(new EndingScreen(window, screen_holder, teams[0].get()));
-            
+
             sf::sleep(sf::seconds(1));
         }
 
@@ -68,7 +73,7 @@ bool World::update(sf::Time dt) {
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
     pauseMenu();
-  
+
     return false;
 }
 
@@ -251,6 +256,6 @@ void World::shipDestroyed(int team_id, int ship_id) {
 }
 
 void World::pauseMenu() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
         screen_holder.push_back(new Pause(window, screen_holder));
 }
