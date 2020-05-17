@@ -228,12 +228,19 @@ void World::extendTurn(sf::Time t) {
 }
 
 void World::shipDestroyed(int team_id, int ship_id) {
+    int i = 0;
+    bool remove = false;
     for (auto t : teams) {
         if (t->getID() == team_id) {
             t->removeShip(ship_id);
-            if (t->size() == 0)
+            if (t->size() == 0) {
+                remove = true;
                 teams_remaining--;
+            }
             break;
         }
+        i++;
     }
+    if (remove)
+        teams.erase(teams.begin() + i);
 }
