@@ -18,9 +18,11 @@ public:
     void setFont(std::string font_path);
     void setSize(unsigned int size);
     void setPosition(sf::Vector2f position);
+    void setBackground(sf::RectangleShape rectangle);
 private:
     sf::Font font;
     sf::String string;
+    sf::RectangleShape background;
     std::shared_ptr<sf::Text> text;
 }; 
 

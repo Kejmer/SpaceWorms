@@ -6,6 +6,7 @@ TextBox::TextBox(Entity *entity, const sf::String &string, const sf::Font &font,
 : Attachable(entity)
 , font(font)
 , string(string)
+, background()
 , text() {
     text = std::shared_ptr<sf::Text>{new sf::Text{this->string, this->font, characterSize}};
     text->setPosition(position);
@@ -31,6 +32,10 @@ void TextBox::draw(sf::RenderWindow &window) {
     if (entity != nullptr)
         text->move(entity->getPosition());
     centerOrigin(*text);
+    centerOrigin(background);
+    background.setPosition(text->getPosition());
+
+    window.draw(background);
     window.draw(*text);
     text->setPosition(pos);
 }
@@ -60,4 +65,8 @@ void TextBox::setSize(unsigned int size) {
 
 void TextBox::setPosition(sf::Vector2f position) {
     text->setPosition(position);
+}
+
+void TextBox::setBackground(sf::RectangleShape rectangle) {
+    background = rectangle;
 }

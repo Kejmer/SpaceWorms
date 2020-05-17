@@ -7,8 +7,9 @@
 
 #include "buttonHolder.h"
 #include "textBox.h"
+#include "selectable.h"
 
-class Button {
+class Button : public Selectable {
 public:
     Button(ButtonHolder& button_holder, sf::Vector2f position, sf::Vector2f size, sf::Color not_selected, sf::Color selected);
 
@@ -20,9 +21,6 @@ public:
     void setTextFont(sf::Font font);
     void setTextFont(std::string font_path);
 
-    void select();
-    void deselect();
-
     void assignAction(std::function<void()> action);
     void activate();
 private:
@@ -32,7 +30,6 @@ private:
     sf::Color not_selected;
     sf::Color selected;
     std::function<void()> action;
-    bool is_selected;
 };
 
 #endif
