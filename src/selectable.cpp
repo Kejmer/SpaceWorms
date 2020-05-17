@@ -3,9 +3,12 @@
 Selectable::Selectable()
 : is_selected(false)
 , is_default(true)
+, is_enabled(true)
 , destinations() {}
 
 void Selectable::input(sf::Event event) {}
+
+void Selectable::update(sf::Time dt) {}
 
 void Selectable::select() {
     is_selected = true;
@@ -25,6 +28,14 @@ bool Selectable::isDefault() {
     return is_default;
 }
 
+void Selectable::setIfEnabled(bool value) {
+    is_enabled = value;
+}
+
+bool Selectable::isEnabled() {
+    return is_enabled;
+}
+
 void Selectable::registerNewDestination(sf::Keyboard::Key key, Selectable *destination) {
     destinations[key] = destination;
 }
@@ -38,8 +49,15 @@ void Selectable::removeDestination(sf::Keyboard::Key key) {
 }
 
 Selectable *Selectable::getNextSelectable(sf::Keyboard::Key key) {
-    if(destinations.count(key) == 0)
-        return nullptr;
+    Selectable *result;
 
-    return destinations[key];
+    do {
+        if(destinations.count(key) == 0)
+            return nullptr;
+
+        result = destinations[key];
+    }
+    while (!result->isEnabled());
+
+    return result;
 }

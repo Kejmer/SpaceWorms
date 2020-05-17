@@ -18,10 +18,10 @@ public:
     void setFont(std::string font_path);
     void setSize(unsigned int size);
     void setPosition(sf::Vector2f position);
-    void setBackground(sf::RectangleShape rectangle);
+    void setBackground(sf::Color color);
 private:
     sf::Font font;
-    sf::RectangleShape background;
+    sf::Color background;
     std::basic_string<sf::Uint32> string;
     std::shared_ptr<sf::Text> text;
 }; 

@@ -5,8 +5,8 @@
 TextBox::TextBox(Entity *entity, const sf::String &string, const sf::Font &font, sf::Vector2f position, unsigned int characterSize)
 : Attachable(entity)
 , font(font)
+, background(sf::Color::Transparent)
 , string(string.toUtf32())
-, background()
 , text() {
     text = std::shared_ptr<sf::Text>{new sf::Text{this->string, this->font, characterSize}};
     text->setPosition(position);
@@ -16,6 +16,7 @@ TextBox::TextBox(Entity *entity, const sf::String &string, const sf::Font &font,
 TextBox::TextBox(Entity *entity, const sf::String &string, sf::Vector2f position, unsigned int characterSize)
 : Attachable(entity)
 , font()
+, background(sf::Color::Transparent)
 , string(string.toUtf32())
 , text() {
     sf::Font font;
@@ -32,10 +33,14 @@ void TextBox::draw(sf::RenderWindow &window) {
     if (entity != nullptr)
         text->move(entity->getPosition());
     centerOrigin(*text);
-    centerOrigin(background);
-    background.setPosition(text->getPosition());
+    sf::RectangleShape backgroundRect;
 
-    window.draw(background);
+    backgroundRect.setSize(text->getLocalBounds().getSize() + sf::Vector2f{10, 10});
+    backgroundRect.setFillColor(background);
+    backgroundRect.setPosition(text->getPosition());
+    centerOrigin(backgroundRect);
+
+    window.draw(backgroundRect);
     window.draw(*text);
     text->setPosition(pos);
 }
@@ -67,6 +72,6 @@ void TextBox::setPosition(sf::Vector2f position) {
     text->setPosition(position);
 }
 
-void TextBox::setBackground(sf::RectangleShape rectangle) {
-    background = rectangle;
+void TextBox::setBackground(sf::Color color) {
+    background = color;
 }

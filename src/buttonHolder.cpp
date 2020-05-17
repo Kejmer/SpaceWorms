@@ -23,7 +23,10 @@ void ButtonHolder::input(sf::Event event) {
     }
 }
 
-void ButtonHolder::update(sf::Time dt) {}
+void ButtonHolder::update(sf::Time dt) {
+    for (auto& selectable : selectables)
+        selectable->update(dt);
+}
 
 void ButtonHolder::draw(sf::RenderWindow& window) {
     for (auto& selectable : selectables)
@@ -65,27 +68,35 @@ void ButtonHolder::setDefaultDestinations(Selectable *selectable) {
     selectable->setIfDefault(true);
 
     Selectable *tmp = selectables[(position + 1) % selectables.size()].get();
+    printf("pos: %d | tmp: %llu | this: %llu\n", position, (unsigned long long)tmp, (unsigned long long)selectable);
     selectable->registerNewDestination(sf::Keyboard::S, tmp);
     if (tmp->isDefault())
         tmp->registerNewDestination(sf::Keyboard::W, selectable);
 
     tmp = selectables[((position == 0) ? selectables.size() - 1 : position - 1)].get();
+    printf("pos: %d | tmp: %llu | this: %llu\n", position, (unsigned long long)tmp, (unsigned long long)selectable);
     selectable->registerNewDestination(sf::Keyboard::W, tmp);
     if (tmp->isDefault())
         tmp->registerNewDestination(sf::Keyboard::S, selectable);
 }
 
 void ButtonHolder::interceptInput(Selectable *interceptor) {
+    selectables[current_selection]->deselect();
     input_interceptor = interceptor;
 }
 
 void ButtonHolder::stopInputForwarding() {
+    selectables[current_selection]->select();
     input_interceptor = nullptr;
 }
 
 void ButtonHolder::changeSelection(Selectable *selectable) {
-    if (selectable == nullptr)
+    if (selectable == nullptr) {
+        printf("Not found\n");
         return;
+    }
+
+    printf("i am: %llu, found: %llu\n", (unsigned long long)selectables[current_selection].get(), (unsigned long long)selectable);
 
     selectables[current_selection]->deselect();
     current_selection = findSelectable(selectable);

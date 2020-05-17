@@ -19,6 +19,7 @@ private:
 
     ButtonHolder button_holder;
     std::vector<std::shared_ptr<Attachable>> attachables;
+    std::vector<int> ship_counts;
 };
 
 #endif

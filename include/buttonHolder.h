@@ -29,7 +29,7 @@ public:
 
     void interceptInput(Selectable *interceptor);
     void stopInputForwarding();
-private:
+protected:
     void changeSelection(Selectable *selectable);
     void moveCurrentPosition(sf::Keyboard::Key key);
     int findSelectable(Selectable *selectable);

@@ -10,6 +10,7 @@ public:
     virtual ~Selectable() = default;
 
     virtual void input(sf::Event event);
+    virtual void update(sf::Time dt);
     virtual void draw(sf::RenderWindow &window) = 0;
 
     virtual void select();
@@ -19,6 +20,9 @@ public:
     void setIfDefault(bool value);
     bool isDefault();
 
+    void setIfEnabled(bool value);
+    bool isEnabled();
+
     void registerNewDestination(sf::Keyboard::Key key, Selectable *destination);
     void removeAllDestinations();
     void removeDestination(sf::Keyboard::Key key);
@@ -26,6 +30,7 @@ public:
 protected:
     bool is_selected;
     bool is_default;
+    bool is_enabled;
 
     std::map<sf::Keyboard::Key, Selectable*> destinations;
 };
