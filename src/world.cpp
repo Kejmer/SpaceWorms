@@ -39,7 +39,7 @@ bool World::update(sf::Time dt) {
         entity->update(dt);
 
     checkCollisions();
-    userTeamControl();
+    userTeamControl(dt);
 
     if (is_time_flowing)
         time_left -= dt;
@@ -174,9 +174,19 @@ void World::newPowerUp(sf::Vector2f position, PowerUp::PowerUpType type) {
     }
 }
 
-void World::userTeamControl() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+void World::userTeamControl(sf::Time dt) {
+    static int last_ship_swap = 0;
+    bool can_switch = false;
+    if (last_ship_swap < 300) {
+        last_ship_swap += dt.asMilliseconds();
+    } else {
+        can_switch = true;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && can_switch) {
+        last_ship_swap = 0;
         controlNext();
+    }
 }
 
 void World::controlNext() {
