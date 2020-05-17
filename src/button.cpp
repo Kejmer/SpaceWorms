@@ -23,7 +23,7 @@ void Button::draw(sf::RenderWindow &window) {
     text.draw(window);
 }
 
-void Button::setText(std::string text) {
+void Button::setText(sf::String text) {
     this->text.updateString(text);
 }
 

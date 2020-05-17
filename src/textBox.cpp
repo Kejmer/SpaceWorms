@@ -5,7 +5,7 @@
 TextBox::TextBox(Entity *entity, const sf::String &string, const sf::Font &font, sf::Vector2f position, unsigned int characterSize)
 : Attachable(entity)
 , font(font)
-, string(string)
+, string(string.toUtf32())
 , background()
 , text() {
     text = std::shared_ptr<sf::Text>{new sf::Text{this->string, this->font, characterSize}};
@@ -16,7 +16,7 @@ TextBox::TextBox(Entity *entity, const sf::String &string, const sf::Font &font,
 TextBox::TextBox(Entity *entity, const sf::String &string, sf::Vector2f position, unsigned int characterSize)
 : Attachable(entity)
 , font()
-, string(string)
+, string(string.toUtf32())
 , text() {
     sf::Font font;
     font.loadFromFile("assets/cour.ttf");
@@ -41,7 +41,7 @@ void TextBox::draw(sf::RenderWindow &window) {
 }
 
 void TextBox::updateString(const sf::String &string) {
-    this->string = string;
+    this->string = string.toUtf32();
     text->setString(this->string);
 }
 

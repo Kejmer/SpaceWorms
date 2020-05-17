@@ -21,8 +21,8 @@ public:
     void setBackground(sf::RectangleShape rectangle);
 private:
     sf::Font font;
-    sf::String string;
     sf::RectangleShape background;
+    std::basic_string<sf::Uint32> string;
     std::shared_ptr<sf::Text> text;
 }; 
 
