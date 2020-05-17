@@ -6,19 +6,19 @@
 
 EndingScreen::EndingScreen(sf::RenderWindow& window, ScreenHolder& screen_holder, Team *winning_team)
 : Screen(window, screen_holder)
-, winning_message(nullptr, "Wygrala druzyna", {512, 162}, 50)
+, winning_message(nullptr, L"Wygrała drużyna", {512, 162}, 50)
 , team_name(nullptr, "", {512, 222}, 50)
-, to_menu(nullptr, "Nacisnij ENTER aby wrocic do glownego menu", {512, 576}) {
+, to_menu(nullptr, L"Naciśnij ENTER aby wrócić do głównego menu", {512, 576}) {
     if (winning_team == nullptr) {
         winning_message.setPosition({512, 192});
-        winning_message.updateString("Remis!");
+        winning_message.updateString(L"Remis!");
     }
     else {
         sf::Color team_color = winning_team->getColor();
         if (team_color == sf::Color::Red)
-            team_name.updateString("czerwonych");
+            team_name.updateString(L"czerwonych");
         else if (team_color == sf::Color::Blue)
-            team_name.updateString("niebieskich");
+            team_name.updateString(L"niebieskich");
 
         team_name.setColor(team_color);
     }

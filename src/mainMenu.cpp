@@ -32,7 +32,7 @@ bool MainMenu::draw() {
 
 void MainMenu::initButtons() {
     Button *start = new Button(button_holder, {512, 284}, {400, 100}, sf::Color(119, 131, 153), sf::Color::Blue);
-    start->setText("Rozpocznij gre");
+    start->setText(L"Rozpocznij grę");
     start->assignAction([this](){
         screen_holder.clear();
         
@@ -66,11 +66,11 @@ void MainMenu::initButtons() {
     button_holder.addButton(start);
 
     Button *settings = new Button(button_holder, {512, 434}, {400, 100}, sf::Color(119, 131, 153), sf::Color::Blue);
-    settings->setText("Ustawienia");
+    settings->setText(L"Ustawienia");
     button_holder.addButton(settings);
 
     Button *exit = new Button(button_holder, {512, 584}, {400, 100}, sf::Color(119, 131, 153), sf::Color::Blue);
-    exit->setText("Wyjscie");
+    exit->setText(L"Wyjście");
     exit->assignAction([this](){
         screen_holder.clear();
     });
@@ -78,5 +78,5 @@ void MainMenu::initButtons() {
 }
 
 void MainMenu::initAttachables() {
-    attachables.push_back(std::shared_ptr<Attachable>(new TextBox(nullptr, "Space Worms", {512, 134}, 60)));
+    attachables.push_back(std::shared_ptr<Attachable>(new TextBox(nullptr, L"Space Worms", {512, 134}, 60)));
 }

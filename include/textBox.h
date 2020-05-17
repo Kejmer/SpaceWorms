@@ -20,7 +20,7 @@ public:
     void setPosition(sf::Vector2f position);
 private:
     sf::Font font;
-    sf::String string;
+    std::basic_string<sf::Uint32> string;
     std::shared_ptr<sf::Text> text;
 }; 
 

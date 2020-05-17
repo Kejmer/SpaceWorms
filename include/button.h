@@ -14,7 +14,7 @@ public:
 
     void draw(sf::RenderWindow &window);
 
-    void setText(std::string text);
+    void setText(sf::String text);
     void setTextColor(sf::Color color);
     void setTextSize(unsigned int size);
     void setTextFont(sf::Font font);
