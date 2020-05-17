@@ -47,6 +47,16 @@ bool World::update(sf::Time dt) {
         time_left -= dt;
 
     if (time_left <= sf::Time::Zero) {
+        if (teams_remaining <= 1) {
+            screen_holder.clear();
+            if (teams.size() == 0)
+                screen_holder.push_back(new EndingScreen(window, screen_holder, nullptr));
+            else
+                screen_holder.push_back(new EndingScreen(window, screen_holder, teams[0].get()));
+            
+            sf::sleep(sf::seconds(1));
+        }
+
         nextTeam();
         time_left = turn_time;
         is_time_flowing = false;
@@ -54,14 +64,6 @@ bool World::update(sf::Time dt) {
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
-
-    if (teams_remaining <= 1) {
-        screen_holder.clear();
-        if (teams.size() == 0)
-            screen_holder.push_back(new EndingScreen(window, screen_holder, nullptr));
-        else
-            screen_holder.push_back(new EndingScreen(window, screen_holder, teams[0].get()));
-    }
 
     return false;
 }

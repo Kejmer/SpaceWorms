@@ -10,9 +10,9 @@ void ButtonHolder::input(sf::Event event) {
         return;
 
     if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::W)
+        if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up)
             moveCurrentPosition(-1);
-        else if (event.key.code == sf::Keyboard::S)
+        else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down)
             moveCurrentPosition(1);
         else if (event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Space)
             buttons[current_button]->activate();
