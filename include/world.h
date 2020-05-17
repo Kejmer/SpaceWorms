@@ -48,7 +48,7 @@ public:
     /// Przedłuż obecnie trwającą turę
     void extendTurn(sf::Time t);
 
-    void shipDestroyed(int team_id);
+    void shipDestroyed(int team_id, int ship_id);
 private:
     void checkCollisions();
     /// Ustawienie następnej drużyny
@@ -56,7 +56,7 @@ private:
     /// Przekaż kontrolę następnemu statkowi
     void controlNext();
     /// Sprawdź input użytkownika dotyczący kontroli statków
-    void userTeamControl();
+    void userTeamControl(sf::Time dt);
 
     void timeMultiplierChanges();
 

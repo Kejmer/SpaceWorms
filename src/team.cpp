@@ -45,3 +45,21 @@ void Team::setWorld(World *world) {
 int Team::getID() {
   return id;
 }
+
+size_t Team::size() {
+  return team_ships.size();
+}
+
+bool Team::removeShip(int ship_id) {
+  int i = 0;
+  for (auto s : team_ships) {
+    if (s == ship_id)
+      break;
+    i++;
+  }
+  if (i == size())
+    return false;
+
+  team_ships.erase(team_ships.begin() + i);
+  return true;
+}

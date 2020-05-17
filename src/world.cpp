@@ -217,8 +217,13 @@ void World::extendTurn(sf::Time t) {
     time_left += t;
 }
 
-void World::shipDestroyed(int team_id) {
-    // Funkcja placeholder - do usunięcia / zmiany przy
-    // implementacji dodawania większej ilości statków do drużyn
-    teams_remaining--;
+void World::shipDestroyed(int team_id, int ship_id) {
+    for (auto t : teams) {
+        if (t->getID() == team_id) {
+            t->removeShip(ship_id);
+            if (t->size() == 0)
+                teams_remaining--;
+            break;
+        }
+    }
 }
