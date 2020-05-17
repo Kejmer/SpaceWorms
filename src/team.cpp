@@ -45,3 +45,11 @@ void Team::setWorld(World *world) {
 int Team::getID() {
   return id;
 }
+
+sf::Color Team::getColor() {
+  return team_color;
+}
+
+void Team::resetCounter() {
+  counter = 1;
+}

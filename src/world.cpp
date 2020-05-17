@@ -6,6 +6,7 @@
 #include "../include/ammoPowerUp.h"
 #include "../include/powerUp.h"
 #include "../include/screenHolder.h"
+#include "../include/endingScreen.h"
 
 #include <SFML/Config.hpp>
 
@@ -23,6 +24,8 @@ World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
     game_speed_text = std::unique_ptr<TextBox>(new TextBox{nullptr, "Game speed", {40, 10}, 14});
     game_speed_text->setColor(sf::Color::Black);
     background_texture.loadFromFile("assets/background.png");
+    Spaceship::resetCounter();
+    Team::resetCounter();
 }
 
 bool World::input(sf::Event event) {
@@ -44,6 +47,16 @@ bool World::update(sf::Time dt) {
         time_left -= dt;
 
     if (time_left <= sf::Time::Zero) {
+        if (teams_remaining <= 1) {
+            screen_holder.clear();
+            if (teams.size() == 0)
+                screen_holder.push_back(new EndingScreen(window, screen_holder, nullptr));
+            else
+                screen_holder.push_back(new EndingScreen(window, screen_holder, teams[0].get()));
+            
+            sf::sleep(sf::seconds(1));
+        }
+
         nextTeam();
         time_left = turn_time;
         is_time_flowing = false;
@@ -51,9 +64,6 @@ bool World::update(sf::Time dt) {
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
-
-    if (teams_remaining <= 1)
-        screen_holder.clear();
 
     return false;
 }
@@ -215,4 +225,12 @@ void World::shipDestroyed(int team_id) {
     // Funkcja placeholder - do usunięcia / zmiany przy 
     // implementacji dodawania większej ilości statków do drużyn
     teams_remaining--;
+
+    for (int i = 0; i < teams.size(); i++)
+        if (teams[i]->getID() == team_id) {
+            teams.erase(teams.begin() + i);
+            if (i <= current_team)
+                current_team--;
+            break;
+        }
 }
