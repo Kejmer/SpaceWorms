@@ -18,6 +18,10 @@ public:
   std::shared_ptr<Spaceship> addShip(sf::Vector2f position);
   /// Zwróć id drużyny
   int getID();
+
+  sf::Color getColor();
+
+  static void resetCounter();
 private:
   /// Id indentyfikujący drużynę
   int id;
