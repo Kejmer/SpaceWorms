@@ -56,7 +56,7 @@ private:
     /// Przekaż kontrolę następnemu statkowi
     void controlNext();
     /// Sprawdź input użytkownika dotyczący kontroli statków
-    void userTeamControl(sf::Time dt);
+    void userTeamControl(sf::Event event);
 
     void timeMultiplierChanges();
 

@@ -28,6 +28,7 @@ World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
 bool World::input(sf::Event event) {
     for (auto& entity : entities)
         entity->input(event);
+    userTeamControl(event);
 
     return false;
 }
@@ -39,7 +40,6 @@ bool World::update(sf::Time dt) {
         entity->update(dt);
 
     checkCollisions();
-    userTeamControl(dt);
 
     if (is_time_flowing)
         time_left -= dt;
@@ -174,18 +174,10 @@ void World::newPowerUp(sf::Vector2f position, PowerUp::PowerUpType type) {
     }
 }
 
-void World::userTeamControl(sf::Time dt) {
-    static int last_ship_swap = 0;
-    bool can_switch = false;
-    if (last_ship_swap < 300) {
-        last_ship_swap += dt.asMilliseconds();
-    } else {
-        can_switch = true;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && can_switch) {
-        last_ship_swap = 0;
-        controlNext();
+void World::userTeamControl(sf::Event event) {
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::N)
+            controlNext();
     }
 }
 
