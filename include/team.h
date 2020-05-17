@@ -22,6 +22,10 @@ public:
   size_t size();
   /// Usuń statek z drużyny
   bool removeShip(int ship_id);
+
+  sf::Color getColor();
+
+  static void resetCounter();
 private:
   /// Id indentyfikujący drużynę
   int id;

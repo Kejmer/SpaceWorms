@@ -60,6 +60,9 @@ private:
 
     void timeMultiplierChanges();
 
+    /// Nałóż pauzę jeśli wciśnięto P
+    void pauseMenu();
+
     DelayedContainer<GHole> holeEntities;
 
     bool requesterId;

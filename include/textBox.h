@@ -14,9 +14,13 @@ public:
     void draw(sf::RenderWindow &window);
     void updateString(const sf::String &string);
     void setColor(sf::Color color);
+    void setFont(sf::Font font);
+    void setFont(std::string font_path);
+    void setSize(unsigned int size);
+    void setPosition(sf::Vector2f position);
 private:
     sf::Font font;
-    sf::String string;
+    std::basic_string<sf::Uint32> string;
     std::shared_ptr<sf::Text> text;
 }; 
 

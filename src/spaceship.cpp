@@ -145,6 +145,10 @@ float Spaceship::getStatistics(Spaceship::Statistics stat) {
     return statistics_holder[stat];
 }
 
+void Spaceship::resetCounter() {
+    counter = 1;
+}
+
 void Spaceship::realtimeInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         world->moveRequest(id);

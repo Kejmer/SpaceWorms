@@ -63,3 +63,11 @@ bool Team::removeShip(int ship_id) {
   team_ships.erase(team_ships.begin() + i);
   return true;
 }
+
+sf::Color Team::getColor() {
+  return team_color;
+}
+
+void Team::resetCounter() {
+  counter = 1;
+}
