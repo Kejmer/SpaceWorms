@@ -61,6 +61,7 @@ private:
     std::shared_ptr<Bar> healthbar;
     std::shared_ptr<Bar> shot_charge;
     std::shared_ptr<TextBox> ammo_text;
+    std::shared_ptr<Bar> fuel_bar;
 };
 
 #endif
