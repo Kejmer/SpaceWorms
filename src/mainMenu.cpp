@@ -42,7 +42,7 @@ void MainMenu::initButtons() {
     start->setText(L"Rozpocznij grę");
     start->assignAction([this](){
         screen_holder.clear();
-        
+
         World *world = new World(window, screen_holder);
         world->addHoleEntity(new BlackHole({500, 500}, 700, 30));
         world->addHoleEntity(new BlackHole({700, 300}, 500, 20));

@@ -13,9 +13,12 @@ void ScreenHolder::update(sf::Time dt) {
 }
 
 void ScreenHolder::draw() {
-    for (auto it = screens.end() - 1; it >= screens.begin() && !modified; it--)
+    auto it = screens.end() - 1;
+    for (; it >= screens.begin() && !modified; it--)
         if (!(*it)->draw() || modified)
             break;
+    for (; it != screens.end(); it++)
+        (*it)->draw();
 }
 
 void ScreenHolder::push_back(Screen *screen) {
