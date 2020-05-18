@@ -96,7 +96,7 @@ HeavyBullet::HeavyBullet(sf::Vector2f position, sf::Vector2f velocity)
 void HeavyBullet::update(sf::Time dt) {
   if (isTimeFlowing()) {
     sf::Vector2f acc = world->calcGravAccel(position);
-    acc += acc + acc; // tak zgadza się, mnożenie nie działa
+    acc += acc;
     velocity += acc * dt.asSeconds();
     setPosition(position + velocity * dt.asSeconds());
 

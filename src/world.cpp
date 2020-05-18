@@ -77,6 +77,7 @@ bool World::update(sf::Time dt) {
             sf::sleep(sf::seconds(1));
         }
 
+        resetWeapon();
         nextTeam();
         time_left = turn_time;
         is_time_flowing = false;
@@ -137,10 +138,10 @@ sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     for (std::shared_ptr<GHole> h : holeEntities) {
         if(h->direction() == 1) {
             res += h->acceleration(pos);
-        }   
+        }
         if(h->direction() == -1) {
             res -= h->acceleration(pos);
-        }  
+        }
     }
     return res * gravity_multiplier;
 }
