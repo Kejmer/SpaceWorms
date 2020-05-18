@@ -24,4 +24,11 @@ public:
   AbsBullet *spawn(sf::Vector2f position, sf::Vector2f velocity);
 };
 
+class HeavyBulletFactory : public AbsBulletFactory {
+public:
+  HeavyBulletFactory() = default;
+  ~HeavyBulletFactory() = default;
+  AbsBullet *spawn(sf::Vector2f position, sf::Vector2f velocity);
+};
+
 #endif /* BULLLET_FACTORY_H */

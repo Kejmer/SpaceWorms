@@ -79,6 +79,8 @@ void SplitBullet::update(sf::Time dt) {
 void SplitBullet::split() {
   sf::Vector2f left(velocity.y, velocity.x);
   sf::Vector2f right(-velocity.y, -velocity.x);
+  left += velocity;
+  right += velocity;
   world->spawnBullet(position, left, SIMPLE_F);
   world->spawnBullet(position, right, SIMPLE_F);
   world->removeEntity(this);
@@ -91,6 +93,7 @@ HeavyBullet::HeavyBullet(sf::Vector2f position, sf::Vector2f velocity)
 void HeavyBullet::update(sf::Time dt) {
   if (isTimeFlowing()) {
     sf::Vector2f acc = world->calcGravAccel(position);
+    acc += acc;
     velocity += acc * dt.asSeconds();
     setPosition(position + velocity * dt.asSeconds());
 

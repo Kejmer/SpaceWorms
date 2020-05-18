@@ -32,9 +32,11 @@ World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
 
     weapons.push_back(std::make_shared<SimpleBulletFactory>());
     weapons.push_back(std::make_shared<SplitBulletFactory>());
+    weapons.push_back(std::make_shared<HeavyBulletFactory>());
 }
 
 bool World::input(sf::Event event) {
+    // printf("INPUT WORLD - START\n");
     for (auto& entity : entities)
         entity->input(event);
 
@@ -43,11 +45,12 @@ bool World::input(sf::Event event) {
     } else {
         userTeamControl(event);
     }
-
+    // printf("INPUT WORLD - STOP\n");
     return false;
 }
 
 bool World::update(sf::Time dt) {
+    // printf("UPDATE WORLD - START\n");
     timeMultiplierChanges();
 
     dt *= time_multiplier;
@@ -78,7 +81,7 @@ bool World::update(sf::Time dt) {
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
     pauseMenu();
-
+    // printf("UPDATE WORLD - STOP2\n");
     return false;
 }
 
