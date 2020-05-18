@@ -6,6 +6,8 @@
 #include "../include/ammoPowerUp.h"
 #include "../include/powerUp.h"
 #include "../include/screenHolder.h"
+#include "../include/pause.h"
+#include "../include/endingScreen.h"
 
 #include <SFML/Config.hpp>
 
@@ -23,17 +25,26 @@ World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
     game_speed_text = std::unique_ptr<TextBox>(new TextBox{nullptr, "Game speed", {40, 10}, 14});
     game_speed_text->setColor(sf::Color::Black);
     background_texture.loadFromFile("assets/background.png");
+    Spaceship::resetCounter();
+    Team::resetCounter();
 }
 
 bool World::input(sf::Event event) {
     for (auto& entity : entities)
         entity->input(event);
 
+    if (is_time_flowing) {
+
+    } else {
+        userTeamControl(event);
+    }
+
     return false;
 }
 
 bool World::update(sf::Time dt) {
     timeMultiplierChanges();
+
     dt *= time_multiplier;
     for (auto& entity : entities)
         entity->update(dt);
@@ -44,6 +55,16 @@ bool World::update(sf::Time dt) {
         time_left -= dt;
 
     if (time_left <= sf::Time::Zero) {
+        if (teams_remaining <= 1) {
+            screen_holder.clear();
+            if (teams.size() == 0)
+                screen_holder.push_back(new EndingScreen(window, screen_holder, nullptr));
+            else
+                screen_holder.push_back(new EndingScreen(window, screen_holder, teams[0].get()));
+
+            sf::sleep(sf::seconds(1));
+        }
+
         nextTeam();
         time_left = turn_time;
         is_time_flowing = false;
@@ -51,9 +72,7 @@ bool World::update(sf::Time dt) {
 
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
-
-    if (teams_remaining <= 1)
-        screen_holder.clear();
+    pauseMenu();
 
     return false;
 }
@@ -106,7 +125,7 @@ sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     for (std::shared_ptr<GHole> h : holeEntities) {
         if (h->gravity == true) {
             res += h->acceleration(pos);
-        }   
+        }
     }
     return res * gravity_multiplier;
 }
@@ -126,10 +145,10 @@ void World::checkCollisions() {
                 collide(entities[i].get(), entities[j].get());
 }
 
-void World::moveRequest(int spaceshipId) {
+void World::moveRequest(int spaceship_id) {
     if (!is_time_flowing) {
         is_time_flowing = true;
-        requesterId = spaceshipId;
+        requesterId = spaceship_id;
     }
 }
 
@@ -173,6 +192,13 @@ void World::newPowerUp(sf::Vector2f position, PowerUp::PowerUpType type) {
     }
 }
 
+void World::userTeamControl(sf::Event event) {
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::N)
+            controlNext();
+    }
+}
+
 void World::controlNext() {
     std::shared_ptr<Team> team = teams[current_team];
     current_ship = team->nextShip();
@@ -211,8 +237,25 @@ void World::extendTurn(sf::Time t) {
     time_left += t;
 }
 
-void World::shipDestroyed(int team_id) {
-    // Funkcja placeholder - do usunięcia / zmiany przy 
-    // implementacji dodawania większej ilości statków do drużyn
-    teams_remaining--;
+void World::shipDestroyed(int team_id, int ship_id) {
+    int i = 0;
+    bool remove = false;
+    for (auto t : teams) {
+        if (t->getID() == team_id) {
+            t->removeShip(ship_id);
+            if (t->size() == 0) {
+                remove = true;
+                teams_remaining--;
+            }
+            break;
+        }
+        i++;
+    }
+    if (remove)
+        teams.erase(teams.begin() + i);
+}
+
+void World::pauseMenu() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+        screen_holder.push_back(new Pause(window, screen_holder));
 }

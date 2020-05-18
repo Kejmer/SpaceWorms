@@ -22,7 +22,7 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
     centerOrigin(ship);
     ship.setPosition(position);
 
-    texture.loadFromFile(new_file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+    texture.loadFromFile(new_file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt.
     ship.setTexture(&texture, true);
     file = new_file;
     id = counter++;
@@ -45,9 +45,9 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
 
 void Spaceship::input(sf::Event event) {
     if (id == world->getController()) {
-        if (!isCharging && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) 
+        if (!isCharging && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
             isCharging = true;
-        
+
         if (isCharging && event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space) {
             isCharging = false;
             shoot();
@@ -65,21 +65,21 @@ void Spaceship::update(sf::Time dt) {
     if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 3 && current_texture == 0) { // mniej niż 75%
         current_texture = 1;
         file[file.size() - 5] = '2';
-        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt.
         ship.setTexture(&texture, true);
     }
 
     if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) * 2 && current_texture == 1) { // mniej niż 50%
         current_texture = 2;
         file[file.size() - 5] = '3';
-        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt.
         ship.setTexture(&texture, true);
     }
 
     if (getStatistics(Healthpoints) * 4 < getStatistics(MaxHealth) && current_texture == 2) { // mniej niż 25%
         current_texture = 3;
         file[file.size() - 5] = '4';
-        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
+        texture.loadFromFile(file); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt.
         ship.setTexture(&texture, true);
     }
 
@@ -95,9 +95,9 @@ void Spaceship::update(sf::Time dt) {
 
         hitbox->update();
 
-        if (isCharging) 
+        if (isCharging)
             charge_time += dt;
-        
+
         shot_charge->setValue(std::min(getStatistics(ShotChargeTime), charge_time.asSeconds()));
     }
     else {
@@ -147,6 +147,10 @@ void Spaceship::updateStatistics(Spaceship::Statistics stat, float new_value) {
 
 float Spaceship::getStatistics(Spaceship::Statistics stat) {
     return statistics_holder[stat];
+}
+
+void Spaceship::resetCounter() {
+    counter = 1;
 }
 
 void Spaceship::realtimeInput() {

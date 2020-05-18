@@ -5,7 +5,7 @@
 TextBox::TextBox(Entity *entity, const sf::String &string, const sf::Font &font, sf::Vector2f position, unsigned int characterSize)
 : Attachable(entity)
 , font(font)
-, string(string)
+, string(string.toUtf32())
 , text() {
     text = std::shared_ptr<sf::Text>{new sf::Text{this->string, this->font, characterSize}};
     text->setPosition(position);
@@ -15,7 +15,7 @@ TextBox::TextBox(Entity *entity, const sf::String &string, const sf::Font &font,
 TextBox::TextBox(Entity *entity, const sf::String &string, sf::Vector2f position, unsigned int characterSize)
 : Attachable(entity)
 , font()
-, string(string)
+, string(string.toUtf32())
 , text() {
     sf::Font font;
     font.loadFromFile("assets/cour.ttf");
@@ -36,10 +36,28 @@ void TextBox::draw(sf::RenderWindow &window) {
 }
 
 void TextBox::updateString(const sf::String &string) {
-    this->string = string;
+    this->string = string.toUtf32();
     text->setString(this->string);
 }
 
 void TextBox::setColor(sf::Color color) {
     text->setFillColor(color);
+}
+
+void TextBox::setFont(sf::Font font) {
+    this->font = font;
+    text->setFont(font);
+}
+
+void TextBox::setFont(std::string font_path) {
+    font.loadFromFile(font_path);
+    text->setFont(font);
+}
+
+void TextBox::setSize(unsigned int size) {
+    text->setCharacterSize(size);
+}
+
+void TextBox::setPosition(sf::Vector2f position) {
+    text->setPosition(position);
 }

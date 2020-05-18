@@ -37,6 +37,8 @@ public:
     int getTeam();
 
     std::shared_ptr<AttachTriangle> getCurrPlIndicator();
+  
+    static void resetCounter();
 private:
     void realtimeInput();
     sf::Vector2f getDirection();
