@@ -48,9 +48,12 @@ public:
     void addAttachable(Attachable *att);
     void addAttachable(std::shared_ptr<Attachable> att);
     void removeAttachable(Attachable *att);
+
+    int getDamage();
 protected:
     CollisionCategory collision_category;
 
+    int damage;
     bool isTimeFlowing();
     float distanceTo(sf::Vector2f where);
     sf::Vector2f position;

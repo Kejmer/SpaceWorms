@@ -19,6 +19,7 @@ AbsBullet::AbsBullet(sf::Vector2f position, sf::Vector2f velocity, float bullet_
                    std::floor(bounds.top + bounds.height / 2.));
 
   hitbox = std::unique_ptr<BoundingHitbox>(new BoundingHitbox{this, &bullet});
+  damage = 10;
 }
 
 void AbsBullet::spawn() {
@@ -87,13 +88,15 @@ void SplitBullet::split() {
 }
 
 HeavyBullet::HeavyBullet(sf::Vector2f position, sf::Vector2f velocity)
-: AbsBullet(position, velocity, 6.) {}
+: AbsBullet(position, velocity, 6.) {
+  damage = 25;
+}
 
 
 void HeavyBullet::update(sf::Time dt) {
   if (isTimeFlowing()) {
     sf::Vector2f acc = world->calcGravAccel(position);
-    acc += acc;
+    acc += acc + acc; // tak zgadza się, mnożenie nie działa
     velocity += acc * dt.asSeconds();
     setPosition(position + velocity * dt.asSeconds());
 

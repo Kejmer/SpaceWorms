@@ -49,7 +49,7 @@ void collide(Entity* first, Entity* second) {
     if (checkRelation(&first, &second, Entity::Spaceship, Entity::Bullet)) {
         auto ship = (Spaceship*)first;
         float health = ship->getStatistics(Spaceship::Healthpoints);
-        health -= 10;
+        health -= second->getDamage();
 
         if (health <= 0) {
             ship->despawn();

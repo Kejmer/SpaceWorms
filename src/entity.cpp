@@ -5,6 +5,7 @@
 
 Entity::Entity(sf::Vector2f position, Entity::CollisionCategory category)
 : collision_category(category)
+, damage(0)
 , position(position)
 , world(nullptr)
 , hitbox(new BoundingHitbox{this}) {}
@@ -76,4 +77,8 @@ void Entity::removeAttachable(Attachable *att) {
             attachables_to_draw.erase(it);
             break;
         }
+}
+
+int Entity::getDamage() {
+    return damage;
 }
