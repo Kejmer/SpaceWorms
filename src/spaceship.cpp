@@ -18,6 +18,7 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
 , charge_time(sf::Time::Zero)
 , healthbar()
 , shot_charge()
+// , fuel_bar()
 , ammo_text() {
     centerOrigin(ship);
     ship.setPosition(position);
@@ -33,6 +34,10 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
     addAttachable(healthbar);
 
     shot_charge = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::White, {50, 5}, {0, -40}, getStatistics(ShotChargeTime), 0});
+
+    // creating the fuel bar.
+    fuel_bar = std::shared_ptr<Bar>(new Bar{this, sf::Color::Yellow, sf::Color::White, {50, 5}, {0, -40}, 10, 5});
+    addAttachable(fuel_bar);
 
     ammo_text = std::shared_ptr<TextBox>(new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14});
     addAttachable(ammo_text);
