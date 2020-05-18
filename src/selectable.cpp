@@ -36,6 +36,10 @@ bool Selectable::isEnabled() {
     return is_enabled;
 }
 
+void Selectable::setPosition(sf::Vector2f position) {
+    this->position = position;
+}
+
 void Selectable::registerNewDestination(sf::Keyboard::Key key, Selectable *destination) {
     destinations[key] = destination;
 }
@@ -49,13 +53,13 @@ void Selectable::removeDestination(sf::Keyboard::Key key) {
 }
 
 Selectable *Selectable::getNextSelectable(sf::Keyboard::Key key) {
-    Selectable *result;
+    Selectable *result = this;
 
     do {
         if(destinations.count(key) == 0)
             return nullptr;
 
-        result = destinations[key];
+        result = result->destinations[key];
     }
     while (!result->isEnabled());
 

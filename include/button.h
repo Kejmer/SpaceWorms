@@ -20,6 +20,7 @@ public:
     void setTextSize(unsigned int size);
     void setTextFont(sf::Font font);
     void setTextFont(std::string font_path);
+    void setPosition(sf::Vector2f position);
 
     void assignAction(std::function<void()> action);
     void activate();

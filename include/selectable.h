@@ -23,6 +23,8 @@ public:
     void setIfEnabled(bool value);
     bool isEnabled();
 
+    virtual void setPosition(sf::Vector2f position);
+
     void registerNewDestination(sf::Keyboard::Key key, Selectable *destination);
     void removeAllDestinations();
     void removeDestination(sf::Keyboard::Key key);
@@ -33,6 +35,7 @@ protected:
     bool is_enabled;
 
     std::map<sf::Keyboard::Key, Selectable*> destinations;
+    sf::Vector2f position;
 };
 
 #endif

@@ -25,12 +25,14 @@ void ButtonHolder::input(sf::Event event) {
 
 void ButtonHolder::update(sf::Time dt) {
     for (auto& selectable : selectables)
-        selectable->update(dt);
+        if (selectable->isEnabled())
+            selectable->update(dt);
 }
 
 void ButtonHolder::draw(sf::RenderWindow& window) {
     for (auto& selectable : selectables)
-        selectable->draw(window);
+        if (selectable->isEnabled())
+            selectable->draw(window);
 }
 
 void ButtonHolder::addButton(Button *button) {
@@ -113,4 +115,12 @@ int ButtonHolder::findSelectable(Selectable *selectable) {
             return i;
     
     return -1;
+}
+
+int ButtonHolder::size() {
+    return selectables.size();
+}
+
+Selectable *ButtonHolder::getSelectable(int pos) {
+    return selectables[pos].get();
 }

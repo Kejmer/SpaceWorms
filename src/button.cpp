@@ -50,3 +50,9 @@ void Button::assignAction(std::function<void()> action) {
 void Button::activate() {
     action();
 }
+
+void Button::setPosition(sf::Vector2f position) {
+    Selectable::setPosition(position);
+    text.setPosition(position);
+    button.setPosition(position);
+}

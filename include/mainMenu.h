@@ -14,8 +14,11 @@ public:
     bool draw();
 
 private:
+    static const std::vector<sf::Color> team_colors;
+
     void initButtons();
     void initAttachables();
+    void initTeams(World *world);
 
     ButtonHolder button_holder;
     std::vector<std::shared_ptr<Attachable>> attachables;
