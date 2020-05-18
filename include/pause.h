@@ -1,3 +1,6 @@
+#ifndef PAUSE_H
+#define PAUSE_H
+
 #include "screen.h"
 
 
@@ -8,3 +11,5 @@ public:
     bool update(sf::Time dt);
     bool draw();
 };
+
+#endif /* PAUSE_H */

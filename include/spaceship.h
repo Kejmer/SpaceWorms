@@ -8,6 +8,8 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
+class Team;
+
 class Spaceship : public Entity {
 public:
     enum Statistics {
@@ -20,7 +22,7 @@ public:
         ShotChargeTime
     };
 
-    Spaceship(sf::Vector2f position, std::string file="assets/spaceship_grey.png");
+    Spaceship(sf::Vector2f position, Team& team, std::string file="assets/spaceship_grey.png");
     void input(sf::Event event);
     void update(sf::Time dt);
     void draw(sf::RenderWindow& window);
@@ -33,6 +35,7 @@ public:
     int getID();
 
     void setTeam(int team_id);
+    void setTeam(Team& team);
     int getTeam();
 
     static void resetCounter();
@@ -45,6 +48,7 @@ private:
     static int counter;
     int id;
     int team_id;
+    Team& team;
 
     std::map<Statistics, float> statistics_holder;
     sf::CircleShape ship;

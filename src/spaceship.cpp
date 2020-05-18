@@ -3,11 +3,13 @@
 #include "../include/world.h"
 #include "../include/bullet.h"
 #include "../include/complexHitbox.h"
+#include "../include/team.h"
 
 int Spaceship::counter = 1;
 
-Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
+Spaceship::Spaceship(sf::Vector2f position, Team& team, std::string new_file)
 : Entity(position, Entity::Spaceship)
+, team(team)
 , statistics_holder()
 , ship(30, 3)
 , rotation(0)
@@ -120,7 +122,7 @@ void Spaceship::shoot() {
     float speed_multiplier = std::min(1.f, charge_time.asSeconds() / getStatistics(ShotChargeTime));
     charge_time = sf::Time::Zero;
     sf::Vector2f direction = getDirection();
-    world->addEntity(new SimpleBullet{position + direction * 35.f, direction * getStatistics(BulletSpeed) * speed_multiplier});
+    world->spawnBullet(position + direction * 35.f, direction * getStatistics(BulletSpeed) * speed_multiplier);
     updateStatistics(AmmoCount, getStatistics(AmmoCount) - 1);
     ammo_text->updateString("Ammo: " + std::to_string((int)getStatistics(AmmoCount)));
     last_shot = sf::Time::Zero;
@@ -210,8 +212,9 @@ int Spaceship::getID() {
     return id;
 }
 
-void Spaceship::setTeam(int team_id) {
-    this->team_id = team_id;
+void Spaceship::setTeam(Team& team) {
+    this->team = team;
+    this->team_id = team.getID();
 }
 
 int Spaceship::getTeam() {
