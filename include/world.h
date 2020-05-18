@@ -7,6 +7,8 @@
 #include "delayedContainer.h"
 #include "powerUp.h"
 #include "screen.h"
+#include "defines.h"
+#include "bulletFactory.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -50,8 +52,16 @@ public:
 
     void shipDestroyed(int team_id, int ship_id);
 
+    void spawnBullet(sf::Vector2f position, sf::Vector2f velocity);
+    void spawnBullet(sf::Vector2f position, sf::Vector2f velocity, int type);
+
+    int currentWeapon();
+
+    void setCurrentWeapon(int pick);
+
     static const sf::Time turn_time;
     sf::Time time_left;
+
 private:
     void checkCollisions();
     /// Ustawienie następnej drużyny
@@ -83,6 +93,11 @@ private:
     std::unique_ptr<TextBox> game_speed_text;
 
     sf::Texture background_texture;
+
+    std::vector<std::shared_ptr<AbsBulletFactory>> weapons;
+    int current_weapon;
+    void resetWeapon();
+    void openInventory();
 };
 
 #endif

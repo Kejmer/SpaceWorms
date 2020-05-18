@@ -3,23 +3,40 @@
 
 #include "entity.h"
 
-// Temporary class just for testing
-
-// później ta klasa powinna dziedziczyć po jakimś abstrakcyjnym AbstrBullet SPRINT-2
-// zamiast velocity dać Move SPRINT-1
-class SimpleBullet : public Entity {
+class AbsBullet : public Entity {
 public:
-    SimpleBullet(sf::Vector2f position, sf::Vector2f velocity);
+    AbsBullet(sf::Vector2f position, sf::Vector2f velocity, float bullet_size);
     void input(sf::Event event);
-    void update(sf::Time dt);
     void draw(sf::RenderWindow& window);
-private:
+protected:
     void spawn();
 
     sf::CircleShape bullet;
     sf::Vector2f velocity;
     sf::Time last_spawn;
     static const sf::Time spawn_delay;
+};
+
+class SimpleBullet : public AbsBullet {
+public:
+    SimpleBullet(sf::Vector2f position, sf::Vector2f velocity);
+    void update(sf::Time dt);
+};
+
+class SplitBullet : public AbsBullet {
+public:
+    SplitBullet(sf::Vector2f position, sf::Vector2f velocity);
+    void update(sf::Time dt);
+private:
+    void split();
+    static const sf::Time split_delay;
+    sf::Time life_span;
+};
+
+class HeavyBullet : public AbsBullet {
+public:
+    HeavyBullet(sf::Vector2f position, sf::Vector2f velocity);
+    void update(sf::Time dt);
 };
 
 #endif /* BULLET_H */

@@ -1,3 +1,6 @@
+#ifndef PAUSE_H
+#define PAUSE_H
+
 #include "screen.h"
 #include "buttonHolder.h"
 #include "textBox.h"
@@ -10,9 +13,11 @@ public:
     bool input(sf::Event event);
     bool update(sf::Time dt);
     bool draw();
-
+  
 private:
     sf::RectangleShape background;
     ButtonHolder buttons;
     TextBox title;
 };
+
+#endif /* PAUSE_H */
