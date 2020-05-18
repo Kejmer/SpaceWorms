@@ -19,6 +19,12 @@ EndingScreen::EndingScreen(sf::RenderWindow& window, ScreenHolder& screen_holder
             team_name.updateString(L"czerwonych");
         else if (team_color == sf::Color::Blue)
             team_name.updateString(L"niebieskich");
+        else if (team_color == sf::Color::Green)
+            team_name.updateString(L"zielonych");
+        else if (team_color == sf::Color::Yellow)
+            team_name.updateString(L"żółtych");
+        else
+            team_name.updateString(L"szarych");
 
         team_name.setColor(team_color);
     }

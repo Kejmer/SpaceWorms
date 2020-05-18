@@ -39,6 +39,9 @@ Spaceship::Spaceship(sf::Vector2f position, Team& team, std::string new_file)
     ammo_text = std::shared_ptr<TextBox>(new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14});
     addAttachable(ammo_text);
 
+    curr_player_indicator = std::shared_ptr<AttachTriangle>(new AttachTriangle{this, sf::Color::Red, 5.f, {0, -30}, false});
+    addAttachable(curr_player_indicator);
+
     createHitbox();
 }
 
@@ -108,6 +111,7 @@ void Spaceship::update(sf::Time dt) {
 void Spaceship::draw(sf::RenderWindow& window) {
     window.draw(ship);
     // hitbox->draw(window);
+    curr_player_indicator->setVisibility(id == world->getController());
     for (auto att : attachables_to_draw)
         att->draw(window);
 
@@ -219,4 +223,8 @@ void Spaceship::setTeam(Team& team) {
 
 int Spaceship::getTeam() {
     return team_id;
+}
+
+std::shared_ptr<AttachTriangle> Spaceship::getCurrPlIndicator() {
+    return curr_player_indicator;
 }
