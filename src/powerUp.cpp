@@ -7,7 +7,7 @@ PowerUp::PowerUp(sf::Color col, sf::Vector2f pos)
 , shape (sf::RectangleShape {}) {
     shape.setPosition(pos);
     shape.setSize(size);
-    shape.setFillColor(color);
+    // shape.setFillColor(color);
 
     hitbox = std::unique_ptr<BoundingHitbox>(new BoundingHitbox{this, &shape});
 }
