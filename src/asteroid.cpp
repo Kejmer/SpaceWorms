@@ -23,5 +23,5 @@ void Asteroid::draw(sf::RenderWindow& window) {
 
 
 short Asteroid::direction() {
-  return 1;
+  return 0;
 }
