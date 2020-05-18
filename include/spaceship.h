@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "bar.h"
 #include "textBox.h"
+#include "attachTriangle.h"
 
 #include <SFML/Graphics.hpp>
 #include <map>
@@ -35,6 +36,8 @@ public:
     void setTeam(int team_id);
     int getTeam();
 
+    std::shared_ptr<AttachTriangle> getCurrPlIndicator();
+  
     static void resetCounter();
 private:
     void realtimeInput();
@@ -61,6 +64,7 @@ private:
     std::shared_ptr<Bar> healthbar;
     std::shared_ptr<Bar> shot_charge;
     std::shared_ptr<TextBox> ammo_text;
+    std::shared_ptr<AttachTriangle> curr_player_indicator;
 };
 
 #endif
