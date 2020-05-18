@@ -60,6 +60,10 @@ void MainMenu::initButtons() {
         world->addHoleEntity(new Asteroid({850,600}, 700, 10));
         world->addHoleEntity(new Asteroid({750,630}, 700, 20));
 
+        // White Hole
+        world->addHoleEntity(new WhiteHole({200,600}, 800, 30));
+
+
         world->run();
         screen_holder.push_back(world);
     });

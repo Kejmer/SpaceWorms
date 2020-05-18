@@ -13,9 +13,10 @@ public:
   void update(sf::Time dt);
   void draw(sf::RenderWindow& window);
   void setWorld(World *world);
+  virtual short direction() = 0; //może static? TODO Michał ale nie ten sprint
+
 protected:
   typedef Entity super;
-  virtual short direction() = 0; //może static? TODO Michał ale nie ten sprint
   float mass;
   sf::CircleShape hole;
   sf::Texture texture;
