@@ -58,7 +58,7 @@ short BlackHole::direction() {
 }
 
 WhiteHole::WhiteHole(sf::Vector2f position, float mass, float radius)
-: GHole(position, mass, radius, -1) {
+: GHole(position, mass, radius, 1) {
   //kolor chwilowo aby było widoczne
   texture.loadFromFile("assets/whitehole.png"); // Może rzucić failem, jeśli nie załaduje obrazka, wtedy ładuje biały trójkąt. 
   hole.setTexture(&texture, true);
