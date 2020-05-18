@@ -3,7 +3,7 @@
 #include "../include/utility.h"
 #include "../include/screenHolder.h"
 
-const sf::Color TeamOptionField::background_color = sf::Color::Yellow;
+const sf::Color TeamOptionField::background_color = sf::Color(214, 177, 26);
 const sf::Color TeamOptionField::selection_color = sf::Color::Red;
 const int TeamOptionField::max_ships = 3;
 
@@ -25,9 +25,10 @@ TeamOptionField::TeamOptionField(ButtonHolder& button_holder, sf::Vector2f size,
     background.setPosition(position);
     background.setFillColor(background_color);
 
-    ships.setBackground(sf::Color::Cyan);
+    ships.setColor(sf::Color::Black);
 
-    ships_nr.setBackground(sf::Color::Cyan);
+    ships_nr.setBackground(sf::Color(119, 131, 153));
+    ships_nr.setColor(sf::Color::Black);
 
     centerOrigin(team_indicator);
     team_indicator.setFillColor(team_color);
@@ -146,8 +147,6 @@ Settings::Settings(sf::RenderWindow& window, ScreenHolder& screen_holder, std::v
 , remove_team()
 , title(nullptr, L"Ustawienia drużyn", {512, 134}, 60)
 , existing_teams(0) {
-    // buttons.addSelectable(new TeamOptionField(buttons, {700, 50}, {512, 200}, sf::Color::Red, 0, ship_counts));
-    // buttons.addSelectable(new TeamOptionField(buttons, {700, 50}, {512, 500}, sf::Color::Blue, 1, ship_counts));
     initTeams();
 
     remove_team = new Button(buttons, {512, 204}, {700, 50}, sf::Color(119, 131, 153), sf::Color::Blue);
@@ -220,7 +219,6 @@ void Settings::initTeams() {
 }
 
 void Settings::addTeam() {
-    printf("adding\n");
     ship_counts[existing_teams] = 1;
     buttons.getSelectable(existing_teams)->setIfEnabled(true);
     existing_teams++;

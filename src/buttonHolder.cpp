@@ -70,13 +70,11 @@ void ButtonHolder::setDefaultDestinations(Selectable *selectable) {
     selectable->setIfDefault(true);
 
     Selectable *tmp = selectables[(position + 1) % selectables.size()].get();
-    printf("pos: %d | tmp: %llu | this: %llu\n", position, (unsigned long long)tmp, (unsigned long long)selectable);
     selectable->registerNewDestination(sf::Keyboard::S, tmp);
     if (tmp->isDefault())
         tmp->registerNewDestination(sf::Keyboard::W, selectable);
 
     tmp = selectables[((position == 0) ? selectables.size() - 1 : position - 1)].get();
-    printf("pos: %d | tmp: %llu | this: %llu\n", position, (unsigned long long)tmp, (unsigned long long)selectable);
     selectable->registerNewDestination(sf::Keyboard::W, tmp);
     if (tmp->isDefault())
         tmp->registerNewDestination(sf::Keyboard::S, selectable);
@@ -93,12 +91,8 @@ void ButtonHolder::stopInputForwarding() {
 }
 
 void ButtonHolder::changeSelection(Selectable *selectable) {
-    if (selectable == nullptr) {
-        printf("Not found\n");
+    if (selectable == nullptr)
         return;
-    }
-
-    printf("i am: %llu, found: %llu\n", (unsigned long long)selectables[current_selection].get(), (unsigned long long)selectable);
 
     selectables[current_selection]->deselect();
     current_selection = findSelectable(selectable);

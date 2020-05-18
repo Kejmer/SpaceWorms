@@ -72,7 +72,6 @@ void MainMenu::initButtons() {
         screen_holder.push_back(world);
     });
     button_holder.addButton(start);
-    // printf("added: %llu\n", (unsigned long long)start);
 
     Button *settings = new Button(button_holder, {512, 434}, {400, 100}, sf::Color(119, 131, 153), sf::Color::Blue);
     settings->setText(L"Ustawienia");
@@ -81,7 +80,6 @@ void MainMenu::initButtons() {
         screen_holder.push_back(settings_screen);
     });
     button_holder.addButton(settings);
-    // printf("added: %llu\n", (unsigned long long)settings);
 
     Button *exit = new Button(button_holder, {512, 584}, {400, 100}, sf::Color(119, 131, 153), sf::Color::Blue);
     exit->setText(L"Wyjście");
@@ -89,7 +87,6 @@ void MainMenu::initButtons() {
         screen_holder.clear();
     });
     button_holder.addButton(exit);
-    // printf("added: %llu\n", (unsigned long long)exit);
 }
 
 void MainMenu::initAttachables() {
