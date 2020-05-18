@@ -37,7 +37,7 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
     shot_charge = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::White, {50, 5}, {0, -40}, getStatistics(ShotChargeTime), 0});
 
     // Fuel bar. Ma ten sam kolor co shot_charge, ale inne tło. Kiedy charguje, jest przykryte przez charge.
-    fuel_bar = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color{15, 12, 35}, {50, 5}, {0, -40}, getWorld()->turn_time.asSeconds(), 0});
+    fuel_bar = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::Transparent, {50, 5}, {0, -40}, getWorld()->turn_time.asSeconds(), 0});
     addAttachable(fuel_bar);
 
     ammo_text = std::shared_ptr<TextBox>(new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14});
