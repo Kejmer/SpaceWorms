@@ -71,13 +71,19 @@ void ButtonHolder::setDefaultDestinations(Selectable *selectable) {
 
     Selectable *tmp = selectables[(position + 1) % selectables.size()].get();
     selectable->registerNewDestination(sf::Keyboard::S, tmp);
-    if (tmp->isDefault())
+    selectable->registerNewDestination(sf::Keyboard::Down, tmp);
+    if (tmp->isDefault()) {
         tmp->registerNewDestination(sf::Keyboard::W, selectable);
+        tmp->registerNewDestination(sf::Keyboard::Up, selectable);
+    }
 
     tmp = selectables[((position == 0) ? selectables.size() - 1 : position - 1)].get();
     selectable->registerNewDestination(sf::Keyboard::W, tmp);
-    if (tmp->isDefault())
+    selectable->registerNewDestination(sf::Keyboard::Up, tmp);
+    if (tmp->isDefault()) {
         tmp->registerNewDestination(sf::Keyboard::S, selectable);
+        tmp->registerNewDestination(sf::Keyboard::Down, selectable);
+    }
 }
 
 void ButtonHolder::interceptInput(Selectable *interceptor) {

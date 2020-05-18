@@ -131,6 +131,8 @@ void TeamOptionField::initButtons() {
 
     registerNewDestination(decrement, sf::Keyboard::D, increment);
     registerNewDestination(increment, sf::Keyboard::A, decrement);
+    registerNewDestination(decrement, sf::Keyboard::Right, increment);
+    registerNewDestination(increment, sf::Keyboard::Left, decrement);
 }
 
 
