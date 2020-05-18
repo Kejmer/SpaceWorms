@@ -43,6 +43,8 @@ bool World::input(sf::Event event) {
 }
 
 bool World::update(sf::Time dt) {
+    if (current_ship != 0)
+        is_time_flowing = false;
     timeMultiplierChanges();
 
     dt *= time_multiplier;
