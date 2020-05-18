@@ -69,6 +69,7 @@ private:
     std::shared_ptr<Bar> shot_charge;
     std::shared_ptr<TextBox> ammo_text;
     std::shared_ptr<AttachTriangle> curr_player_indicator;
+    std::shared_ptr<Bar> fuel_bar;
 };
 
 #endif
