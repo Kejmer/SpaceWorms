@@ -81,12 +81,12 @@ void MainMenu::initButtons() {
     });
     button_holder.addButton(settings);
 
-    Button *exit = new Button(button_holder, {512, 584}, {400, 100}, sf::Color(119, 131, 153), sf::Color::Blue);
-    exit->setText(L"Wyjście");
-    exit->assignAction([this](){
+    Button *quit_game = new Button(button_holder, {512, 584}, {400, 100}, sf::Color(119, 131, 153), sf::Color::Blue);
+    quit_game->setText(L"Wyjście");
+    quit_game->assignAction([this](){
         screen_holder.clear();
     });
-    button_holder.addButton(exit);
+    button_holder.addButton(quit_game);
 }
 
 void MainMenu::initAttachables() {
