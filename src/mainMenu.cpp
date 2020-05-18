@@ -72,6 +72,10 @@ void MainMenu::initButtons() {
         world->addHoleEntity(new WhiteHole({200,600}, 800, 30));
 
 
+        // White Hole
+        world->addHoleEntity(new WhiteHole({200,600}, 800, 30));
+
+
         world->run();
         screen_holder.push_back(world);
     });
