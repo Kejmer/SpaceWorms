@@ -18,6 +18,10 @@ public:
   std::shared_ptr<Spaceship> addShip(sf::Vector2f position);
   /// Zwróć id drużyny
   int getID();
+  /// Zwróć rozmiar drużyny
+  size_t size();
+  /// Usuń statek z drużyny
+  bool removeShip(int ship_id);
 
   sf::Color getColor();
 
