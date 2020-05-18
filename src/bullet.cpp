@@ -34,7 +34,7 @@ SimpleBullet::SimpleBullet(sf::Vector2f position, sf::Vector2f velocity)
 
 void AbsBullet::draw(sf::RenderWindow& window) {
   window.draw(bullet);
-  hitbox->draw(window);
+  // hitbox->draw(window);
 }
 
 void SimpleBullet::update(sf::Time dt) {
@@ -46,16 +46,16 @@ void SimpleBullet::update(sf::Time dt) {
     bullet.setPosition(position);
     hitbox->update();
     last_spawn += dt;
-    if (last_spawn >= spawn_delay) {
+    if (last_spawn >= spawn_delay)
       spawn();
-    }
   }
 }
+
+sf::Time const SplitBullet::split_delay = sf::seconds(2.);
 
 SplitBullet::SplitBullet(sf::Vector2f position, sf::Vector2f velocity)
 : AbsBullet(position, velocity, 4.) {
 }
-
 
 void SplitBullet::update(sf::Time dt) {
   if (isTimeFlowing()) {
@@ -65,9 +65,39 @@ void SplitBullet::update(sf::Time dt) {
 
     bullet.setPosition(position);
     hitbox->update();
+
+    life_span  += dt;
     last_spawn += dt;
-    if (last_spawn >= spawn_delay) {
+    if (last_spawn >= spawn_delay)
       spawn();
-    }
+
+    if (life_span >= split_delay)
+      split();
+  }
+}
+
+void SplitBullet::split() {
+  sf::Vector2f left(velocity.y, velocity.x);
+  sf::Vector2f right(-velocity.y, -velocity.x);
+  world->spawnBullet(position, left, SIMPLE_F);
+  world->spawnBullet(position, right, SIMPLE_F);
+  world->removeEntity(this);
+}
+
+HeavyBullet::HeavyBullet(sf::Vector2f position, sf::Vector2f velocity)
+: AbsBullet(position, velocity, 6.) {}
+
+
+void HeavyBullet::update(sf::Time dt) {
+  if (isTimeFlowing()) {
+    sf::Vector2f acc = world->calcGravAccel(position);
+    velocity += acc * dt.asSeconds();
+    setPosition(position + velocity * dt.asSeconds());
+
+    bullet.setPosition(position);
+    hitbox->update();
+    last_spawn += dt;
+    if (last_spawn >= spawn_delay)
+      spawn();
   }
 }

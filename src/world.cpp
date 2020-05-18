@@ -268,7 +268,11 @@ void World::pauseMenu() {
 }
 
 void World::spawnBullet(sf::Vector2f position, sf::Vector2f velocity) {
-    addEntity(weapons[current_weapon]->spawn(position, velocity));
+    spawnBullet(position, velocity, current_weapon);
+}
+
+void World::spawnBullet(sf::Vector2f position, sf::Vector2f velocity, int type) {
+    addEntity(weapons[type]->spawn(position, velocity));
 }
 
 void World::resetWeapon() {

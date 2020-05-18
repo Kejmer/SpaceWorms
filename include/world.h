@@ -53,6 +53,7 @@ public:
     void shipDestroyed(int team_id, int ship_id);
 
     void spawnBullet(sf::Vector2f position, sf::Vector2f velocity);
+    void spawnBullet(sf::Vector2f position, sf::Vector2f velocity, int type);
 
     int currentWeapon();
 

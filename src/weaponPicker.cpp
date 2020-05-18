@@ -50,6 +50,7 @@ void WeaponPicker::initButtons() {
   }
   btns[0]->setText(L"SIMPLE");
   btns[1]->setText(L"SPLIT");
+  btns[2]->setText(L"HEAVY");
 
   for (int i = 0; i < FACTORIES_COUNT; i++) {
     button_holder.addButton(btns[i]);

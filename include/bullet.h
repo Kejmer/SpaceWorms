@@ -28,8 +28,15 @@ public:
     SplitBullet(sf::Vector2f position, sf::Vector2f velocity);
     void update(sf::Time dt);
 private:
-    // static const sf::Time split_delay;
-    // sf::spawn life_span;
+    void split();
+    static const sf::Time split_delay;
+    sf::Time life_span;
+};
+
+class HeavyBullet : public AbsBullet {
+public:
+    HeavyBullet(sf::Vector2f position, sf::Vector2f velocity);
+    void update(sf::Time dt);
 };
 
 #endif /* BULLET_H */
