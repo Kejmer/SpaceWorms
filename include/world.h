@@ -49,6 +49,9 @@ public:
     void extendTurn(sf::Time t);
 
     void shipDestroyed(int team_id, int ship_id);
+
+    static const sf::Time turn_time;
+    sf::Time time_left;
 private:
     void checkCollisions();
     /// Ustawienie następnej drużyny
@@ -70,9 +73,6 @@ private:
     float gravity_multiplier = 900;
     float max_time_mult = 2;
     float time_multiplier = 1;
-
-    static const sf::Time turn_time;
-    sf::Time time_left;
 
     std::vector<std::shared_ptr<Team>> teams;
     int teams_remaining;

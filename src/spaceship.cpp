@@ -4,6 +4,8 @@
 #include "../include/bullet.h"
 #include "../include/complexHitbox.h"
 
+#include <iostream>
+
 int Spaceship::counter = 1;
 
 Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
@@ -18,7 +20,6 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
 , charge_time(sf::Time::Zero)
 , healthbar()
 , shot_charge()
-// , fuel_bar()
 , ammo_text() {
     centerOrigin(ship);
     ship.setPosition(position);
@@ -35,8 +36,8 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
 
     shot_charge = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::White, {50, 5}, {0, -40}, getStatistics(ShotChargeTime), 0});
 
-    // creating the fuel bar.
-    fuel_bar = std::shared_ptr<Bar>(new Bar{this, sf::Color::Yellow, sf::Color::White, {50, 5}, {0, -40}, 10, 5});
+    // Fuel bar. Ma ten sam kolor co shot_charge, ale inne tło. Kiedy charguje, jest przykryte przez charge.
+    fuel_bar = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color{15, 12, 35}, {50, 5}, {0, -40}, getWorld()->turn_time.asSeconds(), 0});
     addAttachable(fuel_bar);
 
     ammo_text = std::shared_ptr<TextBox>(new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14});
@@ -88,6 +89,10 @@ void Spaceship::update(sf::Time dt) {
         ship.setTexture(&texture, true);
     }
 
+    // Zmieniła się długość tury: należy zmienić długość bara.
+    if(getWorld()->turn_time.asSeconds() != fuel_bar->getMaxValue()) {
+        fuel_bar->setMaxValue(getWorld()->turn_time.asSeconds());
+    }
 
     if (id == world->getController()) {
         realtimeInput();
@@ -100,12 +105,18 @@ void Spaceship::update(sf::Time dt) {
 
         hitbox->update();
 
+        fuel_bar->setValue(getWorld()->time_left.asSeconds());
+
         if (isCharging)
             charge_time += dt;
 
         shot_charge->setValue(std::min(getStatistics(ShotChargeTime), charge_time.asSeconds()));
     }
     else {
+        if(fuel_bar->getValue() != 0) {
+            fuel_bar->setValue(0);
+        }
+
         isCharging = false;
         charge_time = sf::Time::Zero;
     }
@@ -115,6 +126,7 @@ void Spaceship::draw(sf::RenderWindow& window) {
     window.draw(ship);
     // hitbox->draw(window);
     curr_player_indicator->setVisibility(id == world->getController());
+
     for (auto att : attachables_to_draw)
         att->draw(window);
 
