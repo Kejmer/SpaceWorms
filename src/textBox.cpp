@@ -35,7 +35,7 @@ void TextBox::draw(sf::RenderWindow &window) {
     centerOrigin(*text);
     sf::RectangleShape backgroundRect;
 
-    backgroundRect.setSize(text->getLocalBounds().getSize() + sf::Vector2f{10, 10});
+    backgroundRect.setSize(sf::Vector2f{text->getLocalBounds().width, text->getLocalBounds().height} + sf::Vector2f{10, 10});
     backgroundRect.setFillColor(background);
     backgroundRect.setPosition(text->getPosition());
     centerOrigin(backgroundRect);
