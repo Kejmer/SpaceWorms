@@ -77,9 +77,9 @@ bool World::update(sf::Time dt) {
 
             sf::sleep(sf::seconds(1));
         }
-        screen_holder.push_back(new EndTurnScreen(window, screen_holder));
         resetWeapon();
         nextTeam();
+        screen_holder.push_back(new EndTurnScreen(window, screen_holder, teams[current_team]));
         time_left = turn_time;
         is_time_flowing = false;
     }
