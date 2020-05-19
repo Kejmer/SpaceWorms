@@ -4,9 +4,12 @@
 #include "entity.h"
 #include "bar.h"
 #include "textBox.h"
+#include "attachTriangle.h"
 
 #include <SFML/Graphics.hpp>
 #include <map>
+
+class Team;
 
 class Spaceship : public Entity {
 public:
@@ -20,7 +23,7 @@ public:
         ShotChargeTime
     };
 
-    Spaceship(sf::Vector2f position, std::string file="assets/spaceship_grey.png");
+    Spaceship(sf::Vector2f position, Team& team, std::string file="assets/spaceship_grey.png");
     void input(sf::Event event);
     void update(sf::Time dt);
     void draw(sf::RenderWindow& window);
@@ -33,8 +36,11 @@ public:
     int getID();
 
     void setTeam(int team_id);
+    void setTeam(Team& team);
     int getTeam();
 
+    std::shared_ptr<AttachTriangle> getCurrPlIndicator();
+  
     static void resetCounter();
 private:
     void realtimeInput();
@@ -45,6 +51,7 @@ private:
     static int counter;
     int id;
     int team_id;
+    Team& team;
 
     std::map<Statistics, float> statistics_holder;
     sf::CircleShape ship;
@@ -61,6 +68,8 @@ private:
     std::shared_ptr<Bar> healthbar;
     std::shared_ptr<Bar> shot_charge;
     std::shared_ptr<TextBox> ammo_text;
+    std::shared_ptr<AttachTriangle> curr_player_indicator;
+    std::shared_ptr<Bar> fuel_bar;
 };
 
 #endif

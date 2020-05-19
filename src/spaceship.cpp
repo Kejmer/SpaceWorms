@@ -3,11 +3,15 @@
 #include "../include/world.h"
 #include "../include/bullet.h"
 #include "../include/complexHitbox.h"
+#include "../include/team.h"
+
+#include <iostream>
 
 int Spaceship::counter = 1;
 
-Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
+Spaceship::Spaceship(sf::Vector2f position, Team& team, std::string new_file)
 : Entity(position, Entity::Spaceship)
+, team(team)
 , statistics_holder()
 , ship(30, 3)
 , rotation(0)
@@ -32,10 +36,17 @@ Spaceship::Spaceship(sf::Vector2f position, std::string new_file)
     healthbar = std::shared_ptr<Bar>(new Bar{this, sf::Color::Green, sf::Color::Red, {50, 5}, {0, 40}, getStatistics(MaxHealth), getStatistics(Healthpoints)});
     addAttachable(healthbar);
 
-    shot_charge = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::White, {50, 5}, {0, -40}, getStatistics(ShotChargeTime), 0});
+    shot_charge = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::White, {50, 5}, {0, -30}, getStatistics(ShotChargeTime), 0});
+
+    // Fuel bar. Ma ten sam kolor co shot_charge, ale inne tło. Kiedy charguje, jest przykryte przez charge.
+    fuel_bar = std::shared_ptr<Bar>(new Bar{this, sf::Color{255, 157, 0}, sf::Color::Transparent, {50, 5}, {0, -30}, getWorld()->turn_time.asSeconds(), 0});
+    addAttachable(fuel_bar);
 
     ammo_text = std::shared_ptr<TextBox>(new TextBox{this, "Ammo: " + std::to_string((int)getStatistics(AmmoCount)), {0, 57}, 14});
     addAttachable(ammo_text);
+
+    curr_player_indicator = std::shared_ptr<AttachTriangle>(new AttachTriangle{this, sf::Color::Red, 5.f, {0, -50}, false});
+    addAttachable(curr_player_indicator);
 
     createHitbox();
 }
@@ -80,6 +91,10 @@ void Spaceship::update(sf::Time dt) {
         ship.setTexture(&texture, true);
     }
 
+    // Zmieniła się długość tury: należy zmienić długość bara.
+    if(getWorld()->turn_time.asSeconds() != fuel_bar->getMaxValue()) {
+        fuel_bar->setMaxValue(getWorld()->turn_time.asSeconds());
+    }
 
     if (id == world->getController()) {
         realtimeInput();
@@ -92,12 +107,18 @@ void Spaceship::update(sf::Time dt) {
 
         hitbox->update();
 
+        fuel_bar->setValue(getWorld()->time_left.asSeconds());
+
         if (isCharging)
             charge_time += dt;
 
         shot_charge->setValue(std::min(getStatistics(ShotChargeTime), charge_time.asSeconds()));
     }
     else {
+        if(fuel_bar->getValue() != 0) {
+            fuel_bar->setValue(0);
+        }
+
         isCharging = false;
         charge_time = sf::Time::Zero;
     }
@@ -106,6 +127,8 @@ void Spaceship::update(sf::Time dt) {
 void Spaceship::draw(sf::RenderWindow& window) {
     window.draw(ship);
     // hitbox->draw(window);
+    curr_player_indicator->setVisibility(id == world->getController());
+
     for (auto att : attachables_to_draw)
         att->draw(window);
 
@@ -120,7 +143,7 @@ void Spaceship::shoot() {
     float speed_multiplier = std::min(1.f, charge_time.asSeconds() / getStatistics(ShotChargeTime));
     charge_time = sf::Time::Zero;
     sf::Vector2f direction = getDirection();
-    world->addEntity(new SimpleBullet{position + direction * 35.f, direction * getStatistics(BulletSpeed) * speed_multiplier});
+    world->spawnBullet(position + direction * 35.f, direction * getStatistics(BulletSpeed) * speed_multiplier);
     updateStatistics(AmmoCount, getStatistics(AmmoCount) - 1);
     ammo_text->updateString("Ammo: " + std::to_string((int)getStatistics(AmmoCount)));
     last_shot = sf::Time::Zero;
@@ -210,10 +233,15 @@ int Spaceship::getID() {
     return id;
 }
 
-void Spaceship::setTeam(int team_id) {
-    this->team_id = team_id;
+void Spaceship::setTeam(Team& team) {
+    this->team = team;
+    this->team_id = team.getID();
 }
 
 int Spaceship::getTeam() {
     return team_id;
+}
+
+std::shared_ptr<AttachTriangle> Spaceship::getCurrPlIndicator() {
+    return curr_player_indicator;
 }

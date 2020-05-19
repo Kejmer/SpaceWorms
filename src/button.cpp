@@ -7,8 +7,7 @@ Button::Button(ButtonHolder& button_holder, sf::Vector2f position, sf::Vector2f 
 , text(nullptr, "", position)
 , not_selected(not_selected)
 , selected(selected)
-, action([](){})
-, is_selected(false) {
+, action([](){}) {
     centerOrigin(button);
     button.setPosition(position);
     button.setFillColor(not_selected);
@@ -44,18 +43,16 @@ void Button::setTextFont(std::string font_path) {
     text.setFont(font_path);
 }
 
-void Button::select() {
-    is_selected = true;
-}
-
-void Button::deselect() {
-    is_selected = false;
-}
-
 void Button::assignAction(std::function<void()> action) {
     this->action = action;
 }
 
 void Button::activate() {
     action();
+}
+
+void Button::setPosition(sf::Vector2f position) {
+    Selectable::setPosition(position);
+    text.setPosition(position);
+    button.setPosition(position);
 }

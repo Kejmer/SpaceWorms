@@ -9,6 +9,7 @@
 #include "../include/pause.h"
 #include "../include/endingScreen.h"
 #include "../include/endTurnScreen.h"
+#include "../include/weaponPicker.h"
 
 #include <SFML/Config.hpp>
 
@@ -20,7 +21,8 @@ World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
 , is_time_flowing(false)
 , teams_remaining(0)
 , current_team(0)
-, current_ship(0) {
+, current_ship(0)
+, current_weapon(0) {
     time_left = turn_time;
     game_speed_bar = std::unique_ptr<Bar>(new Bar{nullptr, sf::Color::White, sf::Color::Yellow, {200, 20}, {100, 10}, max_time_mult, time_multiplier});
     game_speed_text = std::unique_ptr<TextBox>(new TextBox{nullptr, "Game speed", {40, 10}, 14});
@@ -28,9 +30,14 @@ World::World(sf::RenderWindow& window, ScreenHolder& screen_holder)
     background_texture.loadFromFile("assets/background.png");
     Spaceship::resetCounter();
     Team::resetCounter();
+
+    weapons.push_back(std::make_shared<SimpleBulletFactory>());
+    weapons.push_back(std::make_shared<SplitBulletFactory>());
+    weapons.push_back(std::make_shared<HeavyBulletFactory>());
 }
 
 bool World::input(sf::Event event) {
+    // printf("INPUT WORLD - START\n");
     for (auto& entity : entities)
         entity->input(event);
 
@@ -39,11 +46,16 @@ bool World::input(sf::Event event) {
     } else {
         userTeamControl(event);
     }
-
+    // printf("INPUT WORLD - STOP\n");
     return false;
 }
 
 bool World::update(sf::Time dt) {
+    // printf("UPDATE WORLD - START\n");
+
+    if (current_ship != 0)
+        is_time_flowing = false;
+
     timeMultiplierChanges();
 
     dt *= time_multiplier;
@@ -66,6 +78,7 @@ bool World::update(sf::Time dt) {
             sf::sleep(sf::seconds(1));
         }
         screen_holder.push_back(new EndTurnScreen(window, screen_holder));
+        resetWeapon();
         nextTeam();
         time_left = turn_time;
         is_time_flowing = false;
@@ -74,7 +87,7 @@ bool World::update(sf::Time dt) {
     entities.applyPendingChanges();
     holeEntities.applyPendingChanges();
     pauseMenu();
-
+    // printf("UPDATE WORLD - STOP2\n");
     return false;
 }
 
@@ -124,8 +137,11 @@ void World::removeEntity(Entity* entity) {
 sf::Vector2f World::calcGravAccel(sf::Vector2f pos) {
     sf::Vector2f res(0, 0);
     for (std::shared_ptr<GHole> h : holeEntities) {
-        if (h->gravity == true) {
+        if(h->direction() == 1) {
             res += h->acceleration(pos);
+        }
+        if(h->direction() == -1) {
+            res -= h->acceleration(pos);
         }
     }
     return res * gravity_multiplier;
@@ -197,6 +213,9 @@ void World::userTeamControl(sf::Event event) {
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::N)
             controlNext();
+
+        if (event.key.code == sf::Keyboard::E)
+            openInventory();
     }
 }
 
@@ -255,8 +274,31 @@ void World::shipDestroyed(int team_id, int ship_id) {
     if (remove)
         teams.erase(teams.begin() + i);
 }
-
 void World::pauseMenu() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
         screen_holder.push_back(new Pause(window, screen_holder));
+}
+
+void World::spawnBullet(sf::Vector2f position, sf::Vector2f velocity) {
+    spawnBullet(position, velocity, current_weapon);
+}
+
+void World::spawnBullet(sf::Vector2f position, sf::Vector2f velocity, int type) {
+    addEntity(weapons[type]->spawn(position, velocity));
+}
+
+void World::resetWeapon() {
+    current_weapon = 0;
+}
+
+void World::openInventory() {
+    screen_holder.push_back(new WeaponPicker(window, screen_holder, this));
+}
+
+int World::currentWeapon() {
+    return current_weapon;
+}
+
+void World::setCurrentWeapon(int pick) {
+    current_weapon = pick;
 }
