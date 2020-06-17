@@ -8,6 +8,7 @@
 #include "../include/screenHolder.h"
 #include "../include/pause.h"
 #include "../include/endingScreen.h"
+#include "../include/endTurnScreen.h"
 #include "../include/weaponPicker.h"
 
 #include <SFML/Config.hpp>
@@ -76,9 +77,9 @@ bool World::update(sf::Time dt) {
 
             sf::sleep(sf::seconds(1));
         }
-
         resetWeapon();
         nextTeam();
+        screen_holder.push_back(new EndTurnScreen(window, screen_holder, teams[current_team]));
         time_left = turn_time;
         is_time_flowing = false;
     }
